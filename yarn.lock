@@ -22,7 +22,11 @@
   "resolved" "https://registry.npmjs.org/@babel/compat-data/-/compat-data-7.19.0.tgz"
   "version" "7.19.0"
 
+<<<<<<< HEAD
 "@babel/core@^7.0.0", "@babel/core@^7.0.0-0", "@babel/core@^7.11.6", "@babel/core@^7.12.3", "@babel/core@^7.8.0":
+=======
+"@babel/core@^7.11.6", "@babel/core@^7.12.3":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-reM4+U7B9ss148rh2n1Qs9ASS+w94irYXga7c2jaQv9RVzpS7Mv1a9rnYYwuDa45G+DkORt9g6An2k/V4d9LbQ=="
   "resolved" "https://registry.npmjs.org/@babel/core/-/core-7.19.0.tgz"
   "version" "7.19.0"
@@ -559,9 +563,15 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@mapbox/node-pre-gyp@^1.0.0":
+<<<<<<< HEAD
   "integrity" "sha512-4ySo4CjzStuprMwk35H5pPbkymjv1SF3jGLj6rAHp/xT/RF7TL7bd9CTm1xDY49K2qF7jmR/g7k+SkLETP6opA=="
   "resolved" "https://registry.npmjs.org/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.10.tgz"
   "version" "1.0.10"
+=======
+  "integrity" "sha512-aDF3S3rK9Q2gey/WAttUlISduDItz5BU3306M9Eyv6/oS40aMprnopshtlKTykxRNIBEZuRMaZAnbrQ4QtKGyw=="
+  "resolved" "https://registry.npmjs.org/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.9.tgz"
+  "version" "1.0.9"
+>>>>>>> 993fbe5 (feat/cv/user-create)
   dependencies:
     "detect-libc" "^2.0.0"
     "https-proxy-agent" "^5.0.0"
@@ -591,9 +601,15 @@
   "version" "2.0.0"
 
 "@sinclair/typebox@^0.24.1":
+<<<<<<< HEAD
   "integrity" "sha512-GqtkxoAjhTzoMwFg/JYRl+1+miOoyvp6mkLpbMSd2fIQak2KvY00ndlXxxkDBpuCPYkorZeEZf0LEQn9V9NRVQ=="
   "resolved" "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.39.tgz"
   "version" "0.24.39"
+=======
+  "integrity" "sha512-iN6ehuDndiTiDz2F+Orv/+oHJR+PrGv+38oghCddpsW4YEZl5qyLsWxSwYUWrKEOfjpGtXDFW6scJtjpzSLeSw=="
+  "resolved" "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.35.tgz"
+  "version" "0.24.35"
+>>>>>>> 993fbe5 (feat/cv/user-create)
 
 "@sinonjs/commons@^1.7.0":
   "integrity" "sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ=="
@@ -669,9 +685,15 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/node@*":
+<<<<<<< HEAD
   "integrity" "sha512-EQHhixfu+mkqHMZl1R2Ovuvn47PUw18azMJOTwSZr9/fhzHNGXAJ0ma0dayRVchprpCj0Kc1K1xKoWaATWF1qg=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-18.7.16.tgz"
   "version" "18.7.16"
+=======
+  "integrity" "sha512-XnjpaI8Bgc3eBag2Aw4t2Uj/49lLBSStHWfqKvIuXD7FIrZyMLWp8KuAFHAqxMZYTF9l08N1ctUn9YNybZJVmQ=="
+  "resolved" "https://registry.npmjs.org/@types/node/-/node-18.7.15.tgz"
+  "version" "18.7.15"
+>>>>>>> 993fbe5 (feat/cv/user-create)
 
 "@types/prettier@^2.1.5":
   "integrity" "sha512-RI1L7N4JnW5gQw2spvL7Sllfuf1SaHdrZpCHiBlCXjIlufi1SMNnbu2teze3/QE67Fg2tBlH7W+mi4hVNk4p0A=="
@@ -1052,7 +1074,11 @@
   dependencies:
     "fill-range" "^7.0.1"
 
+<<<<<<< HEAD
 "browserslist@^4.20.2", "browserslist@>= 4.21.0":
+=======
+"browserslist@^4.20.2":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-898rgRXLAyRkM1GryrrBHGkqA5hlpkV5MhtZwg9QXeiyLUYs2k00Un05aX5l2/yJIOObYKOpS2JNo8nJDE7fWQ=="
   "resolved" "https://registry.npmjs.org/browserslist/-/browserslist-4.21.3.tgz"
   "version" "4.21.3"
@@ -1069,7 +1095,11 @@
   dependencies:
     "node-int64" "^0.4.0"
 
+<<<<<<< HEAD
 "bson@^4.6.5", "bson@^4.7.0":
+=======
+"bson@^4.6.5":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-VrlEE4vuiO1WTpfof4VmaVolCVYkYTgB9iWgYNOrVlnifpME/06fhFRmONgBhClD5pFC1t9ZWqFUQEQAzY43bA=="
   "resolved" "https://registry.npmjs.org/bson/-/bson-4.7.0.tgz"
   "version" "4.7.0"
@@ -1143,9 +1173,15 @@
   "version" "6.3.0"
 
 "caniuse-lite@^1.0.30001370":
+<<<<<<< HEAD
   "integrity" "sha512-N/od11RX+Gsk+1qY/jbPa0R6zJupEa0lxeBG598EbrtblxVCTJsQwbRBm6+V+rxpc5lHKdsXb9RY83cZIPLseA=="
   "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001393.tgz"
   "version" "1.0.30001393"
+=======
+  "integrity" "sha512-sS4CaUM+/+vqQUlCvCJ2WtDlV81aWtHhqeEVkLokVJJa3ViN4zDxAGfq9R8i1m90uGHxo99cy10Od+lvn3hf0g=="
+  "resolved" "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001390.tgz"
+  "version" "1.0.30001390"
+>>>>>>> 993fbe5 (feat/cv/user-create)
 
 "capture-stack-trace@^1.0.0":
   "integrity" "sha512-mYQLZnx5Qt1JgB1WEiMCf2647plpGeQ2NMR/5L0HNZzGQo4fuSPnK+wjfPnKZV0aiJDgzmWqqkV/g7JD+DW0qw=="
@@ -1391,6 +1427,7 @@
   dependencies:
     "capture-stack-trace" "^1.0.0"
 
+<<<<<<< HEAD
 "cross-env@^7.0.3":
   "integrity" "sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw=="
   "resolved" "https://registry.npmjs.org/cross-env/-/cross-env-7.0.3.tgz"
@@ -1398,6 +1435,8 @@
   dependencies:
     "cross-spawn" "^7.0.1"
 
+=======
+>>>>>>> 993fbe5 (feat/cv/user-create)
 "cross-spawn@^5.0.1":
   "integrity" "sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A=="
   "resolved" "https://registry.npmjs.org/cross-spawn/-/cross-spawn-5.1.0.tgz"
@@ -1407,7 +1446,11 @@
     "shebang-command" "^1.2.0"
     "which" "^1.2.9"
 
+<<<<<<< HEAD
 "cross-spawn@^7.0.1", "cross-spawn@^7.0.3":
+=======
+"cross-spawn@^7.0.3":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w=="
   "resolved" "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
   "version" "7.0.3"
@@ -1522,7 +1565,11 @@
   "resolved" "https://registry.npmjs.org/delegates/-/delegates-1.0.0.tgz"
   "version" "1.0.0"
 
+<<<<<<< HEAD
 "denque@^2.1.0":
+=======
+"denque@^2.0.1":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-HVQE3AAb/pxF8fQAoiqpvg9i3evqug3hoiwakOyZAwJm+6vZehbkYXZ0l4JxS+I3QxM97v5aaRNhj8v5oBhekw=="
   "resolved" "https://registry.npmjs.org/denque/-/denque-2.1.0.tgz"
   "version" "2.1.0"
@@ -1590,9 +1637,15 @@
   "version" "1.1.1"
 
 "electron-to-chromium@^1.4.202":
+<<<<<<< HEAD
   "integrity" "sha512-/wFCHUE+Hocqr/LlVGsuKLIw4P2lBWwFIDcNMDpJGzyIysQV4aycpoOitAs32FT94EHKnNqDR/CVZJFbXEufJA=="
   "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.246.tgz"
   "version" "1.4.246"
+=======
+  "integrity" "sha512-nPdgMWtjjWGCtreW/2adkrB2jyHjClo9PtVhR6rW+oxa4E4Wom642Tn+5LslHP3XPL5MCpkn5/UEY60EXylNeQ=="
+  "resolved" "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.242.tgz"
+  "version" "1.4.242"
+>>>>>>> 993fbe5 (feat/cv/user-create)
 
 "emittery@^0.10.2":
   "integrity" "sha512-aITqOwnLanpHLNXZJENbOgjUBeHocD+xsSJmNrjovKBW5HbSpW3d1pEls7GFQPUWXiwG9+0P4GtHfEqC/4M0Iw=="
@@ -2635,7 +2688,11 @@
     "jest-regex-util" "^29.0.0"
     "jest-snapshot" "^29.0.2"
 
+<<<<<<< HEAD
 "jest-resolve@*", "jest-resolve@^29.0.2":
+=======
+"jest-resolve@^29.0.2":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-V3uLjSA+EHxLtjIDKTBXnY71hyx+8lusCqPXvqzkFO1uCGvVpjBfuOyp+KOLBNSuY61kM2jhepiMwt4eiJS+Vw=="
   "resolved" "https://registry.npmjs.org/jest-resolve/-/jest-resolve-29.0.2.tgz"
   "version" "29.0.2"
@@ -3167,7 +3224,11 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
+<<<<<<< HEAD
 "mongodb-connection-string-url@^2.5.3":
+=======
+"mongodb-connection-string-url@^2.5.2":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-f+/WsED+xF4B74l3k9V/XkTVj5/fxFH2o5ToKXd8Iyi5UhM+sO9u0Ape17Mvl/GkZaFtM0HQnzAG5OTmhKw+tQ=="
   "resolved" "https://registry.npmjs.org/mongodb-connection-string-url/-/mongodb-connection-string-url-2.5.3.tgz"
   "version" "2.5.3"
@@ -3175,6 +3236,7 @@
     "@types/whatwg-url" "^8.2.1"
     "whatwg-url" "^11.0.0"
 
+<<<<<<< HEAD
 "mongodb@4.9.1":
   "integrity" "sha512-ZhgI/qBf84fD7sI4waZBoLBNJYPQN5IOC++SBCiPiyhzpNKOxN/fi0tBHvH2dEC42HXtNEbFB0zmNz4+oVtorQ=="
   "resolved" "https://registry.npmjs.org/mongodb/-/mongodb-4.9.1.tgz"
@@ -3200,6 +3262,28 @@
     "bson" "^4.6.5"
     "kareem" "2.4.1"
     "mongodb" "4.9.1"
+=======
+"mongodb@4.8.1":
+  "integrity" "sha512-/NyiM3Ox9AwP5zrfT9TXjRKDJbXlLaUDQ9Rg//2lbg8D2A8GXV0VidYYnA/gfdK6uwbnL4FnAflH7FbGw3TS7w=="
+  "resolved" "https://registry.npmjs.org/mongodb/-/mongodb-4.8.1.tgz"
+  "version" "4.8.1"
+  dependencies:
+    "bson" "^4.6.5"
+    "denque" "^2.0.1"
+    "mongodb-connection-string-url" "^2.5.2"
+    "socks" "^2.6.2"
+  optionalDependencies:
+    "saslprep" "^1.0.3"
+
+"mongoose@^6.5.4":
+  "integrity" "sha512-8hKV+9baDa7fyWRADQcSN/c0/QQbnewA2D0xOqdFb7f1UGYAHk4YSMNu9Hu2bdRUfQbK/daFuqlcmI17j6/8eg=="
+  "resolved" "https://registry.npmjs.org/mongoose/-/mongoose-6.5.4.tgz"
+  "version" "6.5.4"
+  dependencies:
+    "bson" "^4.6.5"
+    "kareem" "2.4.1"
+    "mongodb" "4.8.1"
+>>>>>>> 993fbe5 (feat/cv/user-create)
     "mpath" "0.9.0"
     "mquery" "4.0.3"
     "ms" "2.1.3"
@@ -3291,7 +3375,11 @@
   "resolved" "https://registry.npmjs.org/nodemailer/-/nodemailer-6.7.8.tgz"
   "version" "6.7.8"
 
+<<<<<<< HEAD
 "nodemon@^1.19.1":
+=======
+"nodemon@^1.19.4":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-VGPaqQBNk193lrJFotBU8nvWZPqEZY2eIzymy2jjY0fJ9qIsxA0sxQ8ATPl0gZC645gijYEc1jtZvpS8QWzJGQ=="
   "resolved" "https://registry.npmjs.org/nodemon/-/nodemon-1.19.4.tgz"
   "version" "1.19.4"
@@ -3833,17 +3921,32 @@
   "resolved" "https://registry.npmjs.org/semver/-/semver-5.7.1.tgz"
   "version" "5.7.1"
 
+<<<<<<< HEAD
 "semver@^6.0.0":
+=======
+"semver@^6.0.0", "semver@^6.3.0":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw=="
   "resolved" "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz"
   "version" "6.3.0"
 
+<<<<<<< HEAD
 "semver@^6.3.0":
   "integrity" "sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw=="
   "resolved" "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz"
   "version" "6.3.0"
 
 "semver@^7.3.5", "semver@^7.3.7":
+=======
+"semver@^7.3.5":
+  "integrity" "sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g=="
+  "resolved" "https://registry.npmjs.org/semver/-/semver-7.3.7.tgz"
+  "version" "7.3.7"
+  dependencies:
+    "lru-cache" "^6.0.0"
+
+"semver@^7.3.7":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g=="
   "resolved" "https://registry.npmjs.org/semver/-/semver-7.3.7.tgz"
   "version" "7.3.7"
@@ -3987,7 +4090,11 @@
     "source-map-resolve" "^0.5.0"
     "use" "^3.1.0"
 
+<<<<<<< HEAD
 "socks@^2.7.0":
+=======
+"socks@^2.6.2":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-scnOe9y4VuiNUULJN72GrM26BNOjVsfPXI+j+98PkyEfsIXroa5ofyjT+FzGvn/xHs73U2JtoBYAVx9Hl4quSA=="
   "resolved" "https://registry.npmjs.org/socks/-/socks-2.7.0.tgz"
   "version" "2.7.0"
@@ -4083,7 +4190,19 @@
     "char-regex" "^1.0.2"
     "strip-ansi" "^6.0.0"
 
+<<<<<<< HEAD
 "string-width@^1.0.2 || 2 || 3 || 4", "string-width@^4.1.0", "string-width@^4.2.0", "string-width@^4.2.3":
+=======
+"string-width@^1.0.2 || 2 || 3 || 4", "string-width@^2.0.0", "string-width@^2.1.1":
+  "integrity" "sha512-nOqH59deCq9SRHlxq1Aw85Jnt4w6KvLKqWVik6oA9ZklXLNIOlqg4F2yrT1MVaTjAqvVwdfeZ7w7aCvJD7ugkw=="
+  "resolved" "https://registry.npmjs.org/string-width/-/string-width-2.1.1.tgz"
+  "version" "2.1.1"
+  dependencies:
+    "is-fullwidth-code-point" "^2.0.0"
+    "strip-ansi" "^4.0.0"
+
+"string-width@^4.1.0":
+>>>>>>> 993fbe5 (feat/cv/user-create)
   "integrity" "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=="
   "resolved" "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   "version" "4.2.3"
@@ -4092,6 +4211,7 @@
     "is-fullwidth-code-point" "^3.0.0"
     "strip-ansi" "^6.0.1"
 
+<<<<<<< HEAD
 "string-width@^2.0.0":
   "integrity" "sha512-nOqH59deCq9SRHlxq1Aw85Jnt4w6KvLKqWVik6oA9ZklXLNIOlqg4F2yrT1MVaTjAqvVwdfeZ7w7aCvJD7ugkw=="
   "resolved" "https://registry.npmjs.org/string-width/-/string-width-2.1.1.tgz"
@@ -4107,6 +4227,25 @@
   dependencies:
     "is-fullwidth-code-point" "^2.0.0"
     "strip-ansi" "^4.0.0"
+=======
+"string-width@^4.2.0":
+  "integrity" "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=="
+  "resolved" "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  "version" "4.2.3"
+  dependencies:
+    "emoji-regex" "^8.0.0"
+    "is-fullwidth-code-point" "^3.0.0"
+    "strip-ansi" "^6.0.1"
+
+"string-width@^4.2.3":
+  "integrity" "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=="
+  "resolved" "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
+  "version" "4.2.3"
+  dependencies:
+    "emoji-regex" "^8.0.0"
+    "is-fullwidth-code-point" "^3.0.0"
+    "strip-ansi" "^6.0.1"
+>>>>>>> 993fbe5 (feat/cv/user-create)
 
 "strip-ansi@^4.0.0":
   "integrity" "sha512-4XaJ2zQdCzROZDivEVIDPkcQn8LMFSa8kj8Gxb/Lnwzv9A8VctNZ+lfivC/sV3ivW8ElJTERXZoPBRrZKkNKow=="
