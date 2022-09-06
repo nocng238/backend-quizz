@@ -1,8 +1,10 @@
 const express = require('express');
-
 const User = require('./user.model');
-
 const router = express.Router();
+const { detailUser } = require('./user.controller');
+
+// GET - domain.com/api/v1/users/:id
+router.get('/:id', detailUser);
 
 // GET - domain.com/api/v1/users
 router.get('/', async (req, res) => {
