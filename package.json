@@ -1,0 +1,25 @@
+{
+  "name": "dp03-backend",
+  "version": "1.0.0",
+  "description": "Dev Plus Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Dev Plus",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.17.1",
+    "jest": "^29.0.2",
+    "mongoose": "^6.5.4",
+    "supertest": "^6.2.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
