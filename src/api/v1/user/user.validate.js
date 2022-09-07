@@ -24,6 +24,24 @@ const createValidate = Joi.object({
     .messages({ 'string.base': `phone must be number` }),
 });
 
+const updateValidate = Joi.object({
+  name: Joi.string()
+    .min(3)
+    .max(30)
+    .regex(/^[ A-Za-z0-9]+$/)
+    .required(),
+
+  phone: Joi.string()
+    .length(10).pattern(/^[0-9]+$/)
+    .required(),
+
+  status: Joi.string()
+    .valid('active', 'inactive')
+    .required()
+})
+
 module.exports = {
   createValidate,
+  updateValidate,
 };
+

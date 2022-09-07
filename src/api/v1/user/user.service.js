@@ -98,6 +98,30 @@ const sendGmail = (pass, mail) => {
   });
 };
 
+const putUser = async (id, body) => {
+  // update user to db
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      $set: body,
+    },
+    { new: true }
+  );
+  // return user after update
+  return updatedUser;
+};
+
+const checkExistingUser = async (id) => {
+  // check user validate id 
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    return false
+  }
+  // get user by id 
+  const result = await User.findOne({ _id: id });
+  // return true if user existing 
+  return result ? true : false;
+};
+
 module.exports = {
   usersList,
   sendGmail,
@@ -105,4 +129,6 @@ module.exports = {
   emailCheck,
   getUser,
   checkFormatPhone,
+  putUser,
+  checkExistingUser,
 };
