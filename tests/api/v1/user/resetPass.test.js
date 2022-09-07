@@ -1,7 +1,7 @@
 const request = require('../../../request');
 
 describe('PATCH /users/resetPass/:id', () => {
-  test('Check user not found', async () => {
+  test('Check Mail not found', async () => {
     const response = await request
       .patch('/api/v1/users/resetPass/63183baed32e234a6d3a20ea123')
       .set('Accept', 'application/json');
@@ -9,7 +9,7 @@ describe('PATCH /users/resetPass/:id', () => {
     expect(response.body.error).toEqual('Email does not exist!!!');
   });
 
-  test('Check valid user and print out user information', async () => {
+  test('Check valid mail and print out user information', async () => {
     const response = await request
       .patch('/api/v1/users/resetPass/6318465cd32e234a6d3a216a')
       .set('Accept', 'application/json');
