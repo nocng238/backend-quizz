@@ -42,19 +42,14 @@ const emailCheck = async (email) => {
   return result ? true : false;
 };
 
-const phoneCheck = async (phone) => {
-  const result = await User.findOne({ phone });
-  return result ? true : false;
-};
-
-const phonevalid = async (phone) => {
+const checkFormatPhone = (phone) => {
   if (phone !== /^[0-9]+$/ && phone.length < 10) {
     return false;
   }
   return true;
 };
 
-const cteateUser = async (username, email, phone) => {
+const createUser = async (username, email, phone) => {
   const randomPassword = generator.generate({
     length: 6,
     numbers: true,
@@ -101,8 +96,7 @@ const sendGmail = (pass, mail) => {
 module.exports = {
   usersList,
   sendGmail,
-  cteateUser,
+  createUser,
   emailCheck,
-  phoneCheck,
-  phonevalid,
+  checkFormatPhone,
 };
