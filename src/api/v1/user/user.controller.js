@@ -108,25 +108,21 @@ const createRefreshToken = (payload) => {
   });
 };
 
-const updateUser = async (req, res, next) => {
+const updateUser = async (req, res) => {
   const usertId = req.params.id;
   let userBody;
   
   try {
-
     // check existed user
     if ((await checkExistingUser(usertId))) {
       try {
-
         // validate form
         userBody = await updateValidate.validateAsync({ 
           name: req.body.name, 
           phone: req.body.phone, 
           status: req.body.status
         });
-    
         try {
-  
           // update user to mongodb
           const userUpdated = await putUser(usertId, userBody) 
           res
@@ -149,7 +145,6 @@ const updateUser = async (req, res, next) => {
     }
   } catch (error) {
     res.status(500).json({ "message": "Error", error });
-    console.log(error)
   }
 };
 
