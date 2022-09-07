@@ -57,9 +57,7 @@ const createUser = async (username, email, phone) => {
 
   //hash passwork
   const passwordHash = await bcrypt.hash(randomPassword, 12);
-
   const newUser = new User({ username, email, phone, password: passwordHash });
-
   const savedUser = await newUser.save();
 
   return {
