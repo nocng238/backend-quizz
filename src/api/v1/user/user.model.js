@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      unique: [true, "Email Exist"],
+      unique: [true, 'Email Exist'],
     },
     phone: {
       type: String,
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
     status: {
       type: String,
       trim: true,
-      default: "active",
+      default: 'active',
       maxlength: 25,
     },
     verified_date: {
@@ -40,11 +40,11 @@ const userSchema = new mongoose.Schema(
     },
     created_by: {
       type: mongoose.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
     },
     update_by: {
       type: mongoose.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
     },
   },
   {
@@ -52,5 +52,5 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model('User', userSchema);
 module.exports = User;

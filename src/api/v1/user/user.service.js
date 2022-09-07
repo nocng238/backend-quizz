@@ -1,11 +1,11 @@
-const User = require("./user.model");
+const User = require('./user.model');
 
-const getUsers = async (search, status, page, limit) => {
-  const statusOptions = ["active", "inactive"];
+const usersList = async (search, status, page, limit) => {
+  const statusOptions = ['active', 'inactive'];
 
-  status === "all"
+  status === 'all'
     ? (status = [...statusOptions])
-    : (status = status.split(","));
+    : (status = status.split(','));
 
   const users = await User.find({
     $and: [
@@ -15,7 +15,7 @@ const getUsers = async (search, status, page, limit) => {
       { deleted_at: null },
     ],
   })
-    .where("status")
+    .where('status')
     .in([...status])
     .skip(page * limit)
     .limit(limit);
@@ -39,4 +39,4 @@ const getUsers = async (search, status, page, limit) => {
   };
 };
 
-module.exports = { getUsers };
+module.exports = { usersList };
