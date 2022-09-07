@@ -1,7 +1,13 @@
 const jwt = require('jsonwebtoken');
 
-const { getUser } = require('./user.service');
-const { usersList } = require('./user.service');
+const {
+  usersList,
+  emailCheck,
+  checkFormatPhone,
+  createUser,
+  sendGmail,
+  getUser,
+} = require('./user.service');
 const { createValidate } = require('../user/user.validate');
 
 const detailUser = async (req, res) => {
@@ -42,7 +48,7 @@ const getUsers = async (req, res, next) => {
   }
 };
 
-const createUser = async (req, res) => {
+const postUser = async (req, res) => {
   try {
     const { username, email, phone } = req.body;
 
@@ -52,28 +58,19 @@ const createUser = async (req, res) => {
     }
 
     // check e-mail
-    const emailCheck = await userServices.emailCheck(email);
-    if (emailCheck) {
+    const emailExisted = await emailCheck(email);
+    if (emailExisted) {
       return res.status(400).json({ msg: 'This email already exists!!!' });
     }
 
     // phone validate
-    const phonevalid = await userServices.phonevalid(phone);
-    if (!phonevalid) {
+    if (!checkFormatPhone(phone)) {
       return res
         .status(400)
         .json({ msg: 'Phone number must be greater than 10 and be number!' });
     }
 
-    // phone check
-    const phoneCheck = await userServices.phoneCheck(phone);
-    if (phoneCheck) {
-      return res
-        .status(400)
-        .json({ msg: 'This phone number already exists!!!' });
-    }
-
-    const newUser = await userServices.cteateUser(username, email, phone);
+    const newUser = await createUser(username, email, phone);
 
     const access_token = createAccessToken({ id: newUser.user._id });
     const refresh_token = createRefreshToken({ id: newUser.user._id });
@@ -85,10 +82,10 @@ const createUser = async (req, res) => {
     });
 
     //send mail
-    await userServices.sendGmail(newUser.randomPassword, email);
+    await sendGmail(newUser.randomPassword, email);
 
     res.json({
-      msg: 'Register successfully!',
+      msg: 'Create user successfully!',
       access_token,
       user: newUser.user,
     });
@@ -111,6 +108,6 @@ const createRefreshToken = (payload) => {
 
 module.exports = {
   getUsers,
-  createUser,
+  postUser,
   detailUser,
 };
