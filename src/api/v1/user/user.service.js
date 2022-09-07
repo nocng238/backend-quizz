@@ -3,6 +3,7 @@ const generator = require('generate-password');
 const bcrypt = require('bcrypt');
 
 const User = require('./user.model');
+const { mailUser, passMail } = require('../../../configs/index');
 
 const {
   STATUS_OPTIONS,
@@ -92,15 +93,15 @@ const sendGmail = (pass, mail) => {
     service: 'gmail',
 
     auth: {
-      user: 'quy.nguyen@devplus.edu.vn',
-      pass: 'quyquy111@',
+      user: mailUser,
+      pass: passMail,
     },
     tls: {
       rejectUnauthorized: false,
     },
   });
   let details = {
-    from: 'quy.nguyen@devplus.edu.vn',
+    from: mailUser,
     to: mail,
     subject: 'Registration confirmation letter',
     text: 'Send Gmail to notify ✔',

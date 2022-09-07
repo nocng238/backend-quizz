@@ -10,8 +10,7 @@ const {
   resetPassword,
 } = require('./user.controller');
 
-// GET - domain.com/api/v1/users/:id
-router.get('/:id', detailUser);
+
 
 router.get('/', getUsers);
 
