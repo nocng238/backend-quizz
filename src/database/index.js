@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 require("dotenv").config();
 
-
-require('dotenv').config();
-
 const uri =
   process.env.NODE_ENV === 'test'
     ? process.env.TEST_MONGO_URI
