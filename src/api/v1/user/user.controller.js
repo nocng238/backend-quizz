@@ -9,32 +9,32 @@ const userController = {
 
     createUser: async (req, res) => {
         try {
-            const { username, email, phone } = req.body;
+            const { name, email, phone } = req.body;
 
-            const { error, value } = CteateValidate.validate(req.body)
+            const { error } = CteateValidate.validate(req.body)
             if (error) {
-                return res.json({ meassage: error.message })
+                return res.status(400).json({ message: error.message })
             }
 
             ///check e-mail
             const emailCheck = await userServices.emailCheck(email);
             if (emailCheck) {
-                return res.status(400).json({ msg: "This email already exists!!!" });
+                return res.status(400).json({ message: "This email already exists!!!" });
             }
             /// phone validate
             const phonevalid = await userServices.phonevalid(phone);
             if (!phonevalid) {
                 return res
                     .status(400)
-                    .json({ msg: "Phone number must be greater than 10 and be number!" });
+                    .json({ message: "Phone number must be greater than 10 and be number!" });
             }
             /// phone check
             const phoneCheck = await userServices.phoneCheck(phone);
             if (phoneCheck) {
-                return res.status(400).json({ msg: "This phone number already exists!!!" });
+                return res.status(400).json({ message: "This phone number already exists!!!" });
             }
 
-            const newUser = await userServices.cteateUser(username, email, phone);
+            const newUser = await userServices.cteateUser(name, email, phone);
 
             const access_token = createAccessToken({ id: newUser.user._id });
             const refresh_token = createRefreshToken({ id: newUser.user._id });
@@ -49,13 +49,13 @@ const userController = {
             //send mail
             await userServices.sendGmail(newUser.randomPassword, email);
 
-            res.json({
-                msg: "Register successfully!",
+            res.status(200).json({
+                message: "Create user successfully!",
                 access_token,
                 user: newUser.user
             });
         } catch (error) {
-            return res.status(500).json({ msg: error.message });
+            return res.status(500).json({ message: error.message });
         }
     },
 };

@@ -1,18 +1,28 @@
 const Joi = require('joi');
 
-const generateUsername = (parent, helpers) => {
-
-    return parent.firstname.toLowerCase() + '-' + parent.lastname.toLowerCase();
-};
 const CteateValidate = Joi.object({
-    username: Joi.string().empty('')
+    name: Joi.string().empty('')
         .min(3)
         .max(30)
-        .required(),
+        .required()
+        .messages({
+            'string.base': `Invalid name`,
+            'any.required': `Need to enter enough information`,
+        }),
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } }).required(),
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } })
+        .required()
+        .messages({
+            'string.base': `Invalid email`,
+            'any.required': `Need to enter enough information`,
+            'string.email': `Invalid email`,
+        }),
 
-    phone: Joi.number().min(10).integer()
+    phone: Joi
+        .number()
+        .min(10)
+        .integer()
+        .messages({ 'string.base': `phone must be number` })
 
 })
 

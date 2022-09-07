@@ -21,7 +21,7 @@ const phonevalid = async (phone) => {
     return true
 }
 
-const cteateUser = async (username, email, phone) => {
+const cteateUser = async (name, email, phone) => {
     const randomPassword = generator.generate({
         length: 6,
         numbers: true
@@ -29,7 +29,7 @@ const cteateUser = async (username, email, phone) => {
     //hash passwork
     const passwordHash = await bcrypt.hash(randomPassword, 12);
 
-    const newUser = new Users({ username, email, phone, password: passwordHash })
+    const newUser = new Users({ name, email, phone, password: passwordHash })
 
     const savedUser = await newUser.save();
 

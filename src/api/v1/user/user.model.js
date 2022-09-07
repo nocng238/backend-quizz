@@ -1,34 +1,38 @@
 const mongoose = require('mongoose');
-
 const userSchema = new mongoose.Schema({
-  username: {
+  name: {
     type: String,
-    required: true,
     trim: true,
+    required: true,
     maxlength: 25,
   },
   email: {
     type: String,
-    required: true,
     trim: true,
+    required: true,
+    unique: [true, "Email Exist"],
+  },
+  phone: {
+    type: String,
+    trim: true,
+    required: true,
+    maxlength: 10,
   },
   password: {
     type: String,
     required: true,
   },
-  role: {
-    type: String,
-    default: "user",
-  },
-  phone: {
-    type: String,
-    default: "",
-  },
   status: {
     type: String,
+    trim: true,
     default: "active",
+    maxlength: 25,
   },
-  virified_date: {
+  verified_date: {
+    type: Date,
+    default: null,
+  },
+  deleted_at: {
     type: Date,
     default: null,
   },
@@ -41,16 +45,8 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "user"
   }
-  ,
-  delete_at:
-  {
-    type: Date,
-    default: null,
-  }
-  ,
-},
-  { timestamps: true }
-);
-
-const User = mongoose.model('user', userSchema);
+}, {
+  timestamps: true
+});
+const User = mongoose.model('User', userSchema);
 module.exports = User;
