@@ -176,7 +176,7 @@ const resetPassword = async (req, res) => {
     });
   } catch (error) {
     res.status(400).json({
-      error: 'User does not exist!!!',
+      error: 'Email does not exist!!!',
     });
   }
 };
