@@ -4,11 +4,10 @@ const User = require('./user.model');
 
 const router = express.Router();
 
+const { getUsers } = require('./user.controller');
+
 // GET - domain.com/api/v1/users
-router.get('/', async (req, res) => {
-  const users = await User.find({});
-  res.status(200).json(users);
-});
+router.get('/', getUsers);
 
 // POST - domain.com/api/v1/users
 router.post('/', async (req, res) => {
