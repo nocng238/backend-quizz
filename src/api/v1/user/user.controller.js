@@ -138,7 +138,7 @@ const updateUser = async (req, res) => {
           res.status(500).json({ "message": "Error", error });
         }
       } catch (err) { 
-        res.status(400).json({ "message": "Validate fail", "details": err.details });
+        res.status(400).json({ "message": "Form validation fail", "errorDetails": err.details });
       }
     } else {
       res.status(404).json({ "message": "User not exists" });
