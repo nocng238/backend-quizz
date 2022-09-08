@@ -1,8 +1,14 @@
 const mongoose = require('mongoose');
-
 const request = require('../../../request');
+const User = require('../../../../src/api/v1/user/user.model');
+const helper = require('../../../test_helper');
 
-describe('GET - Check GET with pagination', () => {
+beforeEach(async () => {
+  await User.deleteMany({});
+  await User.insertMany(helper.initialUsers);
+});
+
+describe('Check GET users with page', () => {
   test('Users are returned as json', async () => {
     await request
       .get('/api/v1/users')
@@ -10,12 +16,7 @@ describe('GET - Check GET with pagination', () => {
       .expect('Content-Type', /application\/json/);
   });
 
-  test('There are totally 17 users that have deleted_at !== null', async () => {
-    const response = await request.get('/api/v1/users');
-    expect(response.body.total).toBe(17);
-  });
-
-  test('Only first 10 documents when get user', async () => {
+  test('Should return first 10 documents', async () => {
     const response = await request.get('/api/v1/users');
     expect(response.body.users).toHaveLength(10);
   });
@@ -26,8 +27,8 @@ describe('GET - Check GET with pagination', () => {
   });
 });
 
-describe('GET - Check GET with status and/or search', () => {
-  test('Only document that have active status can be get', async () => {
+describe('Check GET users with status and/or search', () => {
+  test('Should return documents that have active status', async () => {
     const response = await request.get('/api/v1/users?status=active');
     const users = response.body.users;
 
@@ -35,7 +36,7 @@ describe('GET - Check GET with status and/or search', () => {
     expect(statusUsers.includes('inactive')).toBe(false);
   });
 
-  test("Only document that its name or email includes 'son' can be get", async () => {
+  test('Should return document that its name or email includes search text', async () => {
     const response = await request.get('/api/v1/users?search=son');
     const users = response.body.users;
 
@@ -48,26 +49,13 @@ describe('GET - Check GET with status and/or search', () => {
     ).toBe(true);
   });
 
-  test("Only document that its name or email includes 'son@gmail.com' can be get", async () => {
-    const response = await request.get('/api/v1/users?search=son');
-    const users = response.body.users;
-
-    const emailUsers = users.map((user) => user.email);
-    const nameUsers = users.map((user) => user.name);
-
-    expect(
-      nameUsers.every((name) => name.includes('son@gmail.com')) ||
-        emailUsers.every((email) => email.includes('son@gmail.com'))
-    ).toBe(true);
-  });
-
-  test("No document that its name and email includes 'abcxyz'", async () => {
+  test('No document that its name and email includes "abcxyz"', async () => {
     const response = await request.get('/api/v1/users?search=abcxyz');
 
     expect(response.body.users).toHaveLength(0);
   });
 
-  test("Only document that its name or email includes 'son' and status is active can be get", async () => {
+  test('Should return document document that its name or email includes search text and status is active can be get', async () => {
     const response = await request.get(
       '/api/v1/users?status=active&search=son'
     );
