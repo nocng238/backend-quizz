@@ -1,16 +1,14 @@
 const express = require('express');
+const router = express.Router();
 
 const User = require('./user.model');
-
-const router = express.Router();
-const { detailUser } = require('./user.controller');
-const userControllers = require('./user.controller');
+const { detailUser, getUsers } = require('./user.controller');
 
 // GET - domain.com/api/v1/users/:id
 router.get('/:id', detailUser);
 
 // GET - domain.com/api/v1/users
-router.route('/').get(userControllers.getUsers);
+router.get('/', getUsers);
 
 // POST - domain.com/api/v1/users
 router.post('/', async (req, res) => {

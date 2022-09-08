@@ -19,12 +19,20 @@ const detailUser = async (req, res) => {
 
 const getUsers = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) - 1 || 0;
-    const limit = parseInt(req.query.limit) || 10;
     const search = req.query.search || '';
-    const status = req.query.status || 'all';
 
-    res.status(200).json(await usersList(search, status, page, limit));
+    const filters = {
+      status: req.query.status || 'all',
+    };
+
+    const options = {
+      page: parseInt(req.query.page) - 1 || 0,
+      limit: parseInt(req.query.limit) || 10,
+    };
+
+    const users = await usersList(search, filters, options);
+
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json(error);
   }

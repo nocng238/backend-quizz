@@ -1,50 +1,43 @@
 const User = require('./user.model');
+const { STATUS_OPTIONS } = require('../../../constants/User');
 
 const getUser = async (id_user) => {
   const user = await User.findById({ _id: id_user });
   return user;
 };
 
-const getUsers = async (search, status, page, limit) => {
-  const statusOptions = ['active', 'inactive'];
+const usersList = async (search, filters = {}, options = {}) => {
+  filters.status === 'all'
+    ? (filters.status = [...STATUS_OPTIONS])
+    : (filters.status = filters.status.split(','));
 
-  status === 'all'
-    ? (status = [...statusOptions])
-    : (status = status.split(','));
+  const limit = options.limit;
+  const offset = options.page * options.limit;
 
-  const users = await User.find({
+  const condition = {
+    status: { $in: [...filters.status] },
     $and: [
       {
         $or: [{ name: { $regex: search } }, { email: { $regex: search } }],
       },
       { deleted_at: null },
     ],
-  })
-    .where('status')
-    .in([...status])
-    .skip(page * limit)
-    .limit(limit);
-
-  const total = await User.countDocuments({
-    status: { $in: [...status] },
-    $and: [
-      {
-        $or: [{ name: { $regex: search } }, { email: { $regex: search } }],
-      },
-      { deleted_at: null },
-    ],
-  });
-
-  return {
-    total,
-    page: page + 1,
-    limit,
-    status,
-    users,
   };
+
+  const data = await User.paginate(condition, { offset, limit });
+
+  const usersPaginate = {
+    total: data.totalDocs,
+    page: data.page,
+    limit: data.limit,
+    status: filters.status,
+    users: data.docs,
+  };
+
+  return usersPaginate;
 };
 
 module.exports = {
-  getUsers,
+  usersList,
   getUser,
 };

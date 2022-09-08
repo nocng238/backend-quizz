@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const userSchema = new mongoose.Schema(
   {
@@ -6,19 +7,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxlength: 25,
+      maxLength: 25,
     },
     email: {
       type: String,
       trim: true,
       required: true,
-      unique: [true, 'Email Exist'],
+      unique: true,
     },
     phone: {
       type: String,
       trim: true,
       required: true,
-      maxlength: 10,
+      maxLength: 10,
     },
     password: {
       type: String,
@@ -26,9 +27,7 @@ const userSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      trim: true,
       default: 'active',
-      maxlength: 25,
     },
     verified_date: {
       type: Date,
@@ -51,6 +50,8 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+userSchema.plugin(mongoosePaginate);
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
