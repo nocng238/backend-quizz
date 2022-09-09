@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('./user.model');
 
-const { STATUS_OPTIONS } = require('../../../constants/User');
+const { STATUS_OPTIONS, ID_VALIDATE_REGEX } = require('../../../constants/User');
 
 const getUser = async (id_user) => {
   const user = await User.findById({ _id: id_user });
@@ -113,7 +113,7 @@ const putUser = async (id, body) => {
 
 const checkExistingUser = async (id) => {
   // check user validate id 
-  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+  if (!id.match(ID_VALIDATE_REGEX)) {
     return false
   }
   // get user by id 
