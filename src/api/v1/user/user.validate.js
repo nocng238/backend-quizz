@@ -7,8 +7,8 @@ const createValidate = Joi.object({
     .max(30)
     .required()
     .messages({
-        'string.base': `Invalid name`,
-        'any.required': `Need to enter enough information`,
+      'string.base': `Invalid name`,
+      'any.required': `Need to enter enough information`,
     }),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } })
