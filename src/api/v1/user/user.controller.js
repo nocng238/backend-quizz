@@ -1,49 +1,102 @@
-const { forgotPass, sendGmail, checkExist } = require('./user.service');
-const { mailValidate } = require('./user.validate');
+const {
+  updatePassword,
+  sendGmail,
+  checkExistEmail,
+  checkExistId,
+} = require('./user.service');
+const { mailValidate, passwordValidate } = require('./user.validate');
 const bcrypt = require('bcrypt');
-const generator = require('generate-password');
+const { secretKey, frontendUrl } = require('../../../configs/index');
+const jwt = require('jsonwebtoken');
 
 const forgotPassword = async (req, res) => {
-  const mail = req.body.email;
-  const randomPassword = generator.generate({
-    length: 6,
-    numbers: true,
-  });
-  const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(randomPassword, salt);
-  const changePass = {
-    password: hashPassword,
-    verified_date: null,
-  };
-
+  const email = req.body.email;
   const { error } = mailValidate.validate(req.body);
-  if (error) {
-    return res.status(400).json({ meassage: error.message });
-  }
 
-  const checkMail = await checkExist(mail);
-  if (!checkMail) {
-    return res.json({
-      success: false,
-      error: 'Email does not exist!!!',
-    });
+  if (error) {
+    return res.status(400).json({ message: error.message });
   }
 
   try {
-    const user = await forgotPass(mail, changePass);
-    //send mail
-    await sendGmail(randomPassword, user.email);
+    const oldUser = await checkExistEmail(email);
+    if (!oldUser) {
+      return res.status(400).json({
+        message: 'User with given email does not exist!',
+      });
+    }
 
+    const secret = secretKey + oldUser.password;
+    const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
+      expiresIn: '24h',
+    });
+
+    const link = `${frontendUrl}/resetpassword/${oldUser._id}/${token}`;
     res.status(200).json({
-      msg: 'Password has been sent to email!',
+      message: 'Password reset link sent to your email account',
     });
+
+    await sendGmail(link, oldUser.email);
   } catch (error) {
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+const checkLink = async (req, res) => {
+  const { id, token } = req.params;
+
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+    return res.status(400).json({ message: 'Invalid link' });
+  }
+
+  const oldUser = await checkExistId(id);
+  if (!oldUser) {
+    return res.status(400).json({ message: 'Invalid link' });
+  }
+  const secret = secretKey + oldUser.password;
+  try {
+    jwt.verify(token, secret);
+    res.status(200).json({ message: 'verify' });
+  } catch (error) {
+    res.status(400).json({ message: 'Not Verified' });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { id, token } = req.params;
+  const { password } = req.body;
+
+  const { error } = passwordValidate.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.message });
+  }
+  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
     return res.status(400).json({
-      error: error,
+      message: 'User Not Exists!!',
     });
+  }
+
+  const oldUser = await checkExistId(id);
+  if (!oldUser) {
+    return res.status(400).json({
+      message: 'User Not Exists!!',
+    });
+  }
+
+  const secret = secretKey + oldUser.password;
+  try {
+    jwt.verify(token, secret);
+    const encryptedPassword = await bcrypt.hash(password, 10);
+    await updatePassword(id, encryptedPassword);
+
+    res.status(200).json({ message: 'Password reset successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
 
 module.exports = {
   forgotPassword,
+  checkLink,
+  resetPassword,
 };

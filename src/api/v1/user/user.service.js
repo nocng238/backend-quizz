@@ -2,23 +2,28 @@ const User = require('./user.model');
 const nodemailer = require('nodemailer');
 const { mailUser, passMail } = require('../../../configs/index');
 
-const forgotPass = async (email, body) => {
-  const forgotPass = await User.findOneAndUpdate(
+const updatePassword = async (id, password) => {
+  const forgotPass = await User.updateOne(
     {
-      email: email,
+      _id: id,
     },
     {
-      $set: body,
-    },
-    { new: true }
+      $set: {
+        password: password,
+      },
+    }
   );
   return forgotPass;
 };
-const checkExist = async (email) => {
+const checkExistEmail = async (email) => {
   const checkMail = await User.findOne({ email: email });
   return checkMail;
 };
-const sendGmail = (pass, mail) => {
+const checkExistId = async (id) => {
+  const oldUser = await User.findOne({ _id: id });
+  return oldUser;
+};
+const sendGmail = (link, mail) => {
   let mailTransporter = nodemailer.createTransport({
     service: 'gmail',
 
@@ -34,7 +39,7 @@ const sendGmail = (pass, mail) => {
     from: mailUser,
     to: mail,
     subject: 'Confirmation letter forgot password',
-    html: `Your password is: <b>${pass}</b>`,
+    html: `Click the link to change the password: ${link}`,
   };
   mailTransporter.sendMail(details, (error) => {
     if (error) {
@@ -45,7 +50,8 @@ const sendGmail = (pass, mail) => {
   });
 };
 module.exports = {
-  forgotPass,
+  updatePassword,
   sendGmail,
-  checkExist,
+  checkExistEmail,
+  checkExistId,
 };
