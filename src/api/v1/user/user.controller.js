@@ -24,6 +24,11 @@ const forgotPassword = async (req, res) => {
         message: 'User with given email does not exist!',
       });
     }
+    if (oldUser.status !== 'active') {
+      return res.status(400).json({
+        message: 'You cannot change your password at this time',
+      });
+    }
 
     const secret = secretKey + oldUser.password;
     const token = jwt.sign({ email: oldUser.email, id: oldUser._id }, secret, {
