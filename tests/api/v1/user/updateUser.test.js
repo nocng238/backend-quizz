@@ -20,18 +20,18 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "user 2",
-        "phone": "0828464532",
-        "status": "inactive"
+        'name': 'user 2',
+        'phone': '0828464532',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(200)
-    expect(response.body.message).toBe("Update user successfully")
+    expect(response.body.message).toBe('Update user successfully')
     expect(response.body.user).toMatchObject(
       {
-        "name": "user 2",
-        "phone": "0828464532",
+        'name': 'user 2',
+        'phone': '0828464532',
       }
     )
   });
@@ -39,40 +39,40 @@ describe('PUT /users/:id', () => {
   test('should return a 404 with an error message if user id does not exist', async () => {
     const response = await request.put(`/api/v1/users/${'non existing id'}`)
       .send({
-        "name": "user 2",
-        "phone": "0828464532",
-        "status": "inactive"
+        'name': 'user 2',
+        'phone': '0828464532',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(404)
-    expect(response.body.message).toBe("User not exists")
+    expect(response.body.message).toBe('User not exists')
   });
 
   test('should return a 400 with an error message, errorDetails if name in empty', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "",
-        "phone": "0828464532",
-        "status": "inactive"
+        'name': '',
+        'phone': '0828464532',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"name\" is not allowed to be empty",
-          "path": [
-            "name"
+          'message': '"name" is not allowed to be empty',
+          'path': [
+            'name'
           ],
-          "type": "string.empty",
-          "context": {
-            "label": "name",
-            "value": "",
-            "key": "name"
+          'type': 'string.empty',
+          'context': {
+            'label': 'name',
+            'value': '',
+            'key': 'name'
           }
         }
       ]
@@ -83,27 +83,27 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "ab",
-        "phone": "0828464532",
-        "status": "inactive"
+        'name': 'ab',
+        'phone': '0828464532',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"name\" length must be at least 3 characters long",
-          "path": [
-            "name"
+          'message': '"name" length must be at least 3 characters long',
+          'path': [
+            'name'
           ],
-          "type": "string.min",
-          "context": {
-            "limit": 3,
-            "value": "ab",
-            "label": "name",
-            "key": "name"
+          'type': 'string.min',
+          'context': {
+            'limit': 3,
+            'value': 'ab',
+            'label': 'name',
+            'key': 'name'
           }
         }
       ]
@@ -114,27 +114,27 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "ab",
-        "phone": "0828464532",
-        "status": "inactive"
+        'name': 'ssssssssssssssssssssssssssssssssss',
+        'phone': '0828464534',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"name\" length must be at least 3 characters long",
-          "path": [
-            "name"
+          'message': '"name" length must be at less than 30 characters long',
+          'path': [
+            'name'
           ],
-          "type": "string.min",
-          "context": {
-            "limit": 3,
-            "value": "ab",
-            "label": "name",
-            "key": "name"
+          'type': 'string.max',
+          'context': {
+            'limit': 30,
+            'value': 'ssssssssssssssssssssssssssssssssss',
+            'label': 'name',
+            'key': 'name'
           }
         }
       ]
@@ -145,27 +145,27 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "abc$",
-        "phone": "0828464532",
-        "status": "inactive"
+        'name': 'abc$',
+        'phone': '0828464532',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"name\" with value \"abc$\" fails to match the required pattern: /^[ A-Za-z0-9]+$/",
-          "path": [
-            "name"
+          'message': '"name" with value "abc$" fails to match the required pattern: /^[ A-Za-z0-9]+$/',
+          'path': [
+            'name'
           ],
-          "type": "string.pattern.base",
-          "context": {
-            "regex": {},
-            "value": "abc$",
-            "label": "name",
-            "key": "name"
+          'type': 'string.pattern.base',
+          'context': {
+            'regex': {},
+            'value': 'abc$',
+            'label': 'name',
+            'key': 'name'
           }
         }
       ]
@@ -176,26 +176,26 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "user 2",
-        "phone": "",
-        "status": "inactive"
+        'name': 'user 2',
+        'phone': '',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"phone\" is not allowed to be empty",
-          "path": [
-            "phone"
+          'message': '"phone" is not allowed to be empty',
+          'path': [
+            'phone'
           ],
-          "type": "string.empty",
-          "context": {
-            "label": "phone",
-            "value": "",
-            "key": "phone"
+          'type': 'string.empty',
+          'context': {
+            'label': 'phone',
+            'value': '',
+            'key': 'phone'
           }
         }
       ]
@@ -206,27 +206,27 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "user 2",
-        "phone": "012345678910",
-        "status": "inactive"
+        'name': 'user 2',
+        'phone': '012345678910',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"phone\" length must be 10 characters long",
-          "path": [
-            "phone"
+          'message': '"phone" length must be 10 characters long',
+          'path': [
+            'phone'
           ],
-          "type": "string.length",
-          "context": {
-            "limit": 10,
-            "value": "012345678910",
-            "label": "phone",
-            "key": "phone"
+          'type': 'string.length',
+          'context': {
+            'limit': 10,
+            'value': '012345678910',
+            'label': 'phone',
+            'key': 'phone'
           }
         }
       ]
@@ -237,27 +237,27 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "user 2",
-        "phone": "0828464b3a",
-        "status": "inactive"
+        'name': 'user 2',
+        'phone': '0828464b3a',
+        'status': 'inactive'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"phone\" with value \"0828464b3a\" fails to match the required pattern: /^[0-9]+$/",
-          "path": [
-            "phone"
+          'message': '"phone" with value "0828464b3a" fails to match the required pattern: /^[0-9]+$/',
+          'path': [
+            'phone'
           ],
-          "type": "string.pattern.base",
-          "context": {
-            "regex": {},
-            "value": "0828464b3a",
-            "label": "phone",
-            "key": "phone"
+          'type': 'string.pattern.base',
+          'context': {
+            'regex': {},
+            'value': '0828464b3a',
+            'label': 'phone',
+            'key': 'phone'
           }
         }
       ]
@@ -268,30 +268,30 @@ describe('PUT /users/:id', () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
-        "name": "user 2",
-        "phone": "0828464532",
-        "status": "abcd"
+        'name': 'user 2',
+        'phone': '0828464532',
+        'status': 'abcd'
       })
       .set('Accept', 'application/json')
 
     expect(response.status).toBe(400)
-    expect(response.body.message).toBe("Form validation fail")
+    expect(response.body.message).toBe('Form validation fail')
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "\"status\" must be one of [active, inactive]",
-          "path": [
-            "status"
+          'message': '"status" must be one of [active, inactive]',
+          'path': [
+            'status'
           ],
-          "type": "any.only",
-          "context": {
-            "valids": [
-              "active",
-              "inactive"
+          'type': 'any.only',
+          'context': {
+            'valids': [
+              'active',
+              'inactive'
             ],
-            "label": "status",
-            "value": "abcd",
-            "key": "status"
+            'label': 'status',
+            'value': 'abcd',
+            'key': 'status'
           }
         }
       ]
