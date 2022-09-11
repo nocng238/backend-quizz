@@ -16,7 +16,7 @@ beforeEach(async () => {
 
 describe('PUT /users/:id', () => {
 
-  it('should return a 200 with an success message, user if user exists and form validation true', async () => {
+  test('should return a 200 with an success message, user if user exists and form validation true', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -36,7 +36,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 404 with an error message if user id does not exist', async () => {
+  test('should return a 404 with an error message if user id does not exist', async () => {
     const response = await request.put(`/api/v1/users/${'non existing id'}`)
       .send({
         "name": "user 2",
@@ -49,7 +49,7 @@ describe('PUT /users/:id', () => {
     expect(response.body.message).toBe("User not exists")
   });
 
-  it('should return a 400 with an error message, errorDetails if name in empty', async () => {
+  test('should return a 400 with an error message, errorDetails if name in empty', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -79,7 +79,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if name length less than 3', async () => {
+  test('should return a 400 with an error message, errorDetails if name length less than 3', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -110,7 +110,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if name length greater than 30', async () => {
+  test('should return a 400 with an error message, errorDetails if name length greater than 30', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -141,7 +141,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if name does not match the required pattern: /^[ A-Za-z0-9]+$/', async () => {
+  test('should return a 400 with an error message, errorDetails if name does not match the required pattern: /^[ A-Za-z0-9]+$/', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -172,7 +172,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if phone is empty', async () => {
+  test('should return a 400 with an error message, errorDetails if phone is empty', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -202,7 +202,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if phone length does not equal 10', async () => {
+  test('should return a 400 with an error message, errorDetails if phone length does not equal 10', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -233,7 +233,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if name does not match the required pattern:  /^[0-9]+$/', async () => {
+  test('should return a 400 with an error message, errorDetails if name does not match the required pattern:  /^[0-9]+$/', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
@@ -264,7 +264,7 @@ describe('PUT /users/:id', () => {
     )
   });
 
-  it('should return a 400 with an error message, errorDetails if status is neither active or inactive', async () => {
+  test('should return a 400 with an error message, errorDetails if status is neither active or inactive', async () => {
     const user = await User.findOne()
     const response = await request.put(`/api/v1/users/${ user._id }`)
       .send({
