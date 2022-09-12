@@ -1,10 +1,5 @@
 const express = require('express');
 
-const {
-  forgotPassword,
-  checkLink,
-  resetPassword,
-} = require('./user.controller');
 const User = require('./user.model');
 
 const router = express.Router();
@@ -15,10 +10,14 @@ router.get('/', async (req, res) => {
   res.status(200).json(users);
 });
 
-// patch - domain.com/api/v1/users/forgotPass
-router.post('/forgotPass', forgotPassword);
-router.get('/reset-password/:id/:token', checkLink);
-router.post('/reset-password/:id/:token', resetPassword);
-
+// POST - domain.com/api/v1/users
+router.post('/', async (req, res) => {
+  const users = await User.create({
+    username: 'test',
+    email: 'test@gmail.com',
+    password: '123123',
+  });
+  res.status(200).json(users);
+});
 
 module.exports = router;

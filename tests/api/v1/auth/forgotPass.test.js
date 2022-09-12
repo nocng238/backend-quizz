@@ -1,9 +1,9 @@
 const request = require('../../../request');
 const { LINK_TOKEN_TEST } = require('../../../../src/constants/index');
-describe('PORT /users/forgotPass', () => {
+describe('PORT /auth/forgotPass', () => {
   test('responds with json', async () => {
     const response = await request
-      .post('/api/v1/users/forgotPass')
+      .post('/api/v1/auth/forgotPass')
       .set('Accept', 'application/json')
       .send({
         email: 'testgame2221@gmail.com',
@@ -15,7 +15,7 @@ describe('PORT /users/forgotPass', () => {
   });
   test('responds with json', async () => {
     const response = await request
-      .post('/api/v1/users/forgotPass')
+      .post('/api/v1/auth/forgotPass')
       .set('Accept', 'application/json')
       .send({
         email: 'testgame@gmail.com',
@@ -27,7 +27,7 @@ describe('PORT /users/forgotPass', () => {
   });
   test('responds with json', async () => {
     const response = await request
-      .post('/api/v1/users/forgotPass')
+      .post('/api/v1/auth/forgotPass')
       .set('Accept', 'application/json')
       .send({});
     expect(response.status).toEqual(400);

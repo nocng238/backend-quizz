@@ -9,4 +9,6 @@ router.get('/', (req, res) => {
 // domain.com/api/v1/users
 router.use('/users', require('./user/user.route'));
 
+router.use('/auth', require('./auth/auth.route'));
+
 module.exports = router;
