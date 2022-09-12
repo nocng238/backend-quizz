@@ -88,7 +88,7 @@ const postUser = async (req, res) => {
 
 
     //send mail
-    const subjectMail = 'Registration confirmation email';
+    const subjectMail = 'Email notification of successful user account creation';
     const htmlMail = 'Thank you for signing up to Devplus! your password is: ';
     sendGmail(newUser.randomPassword, email, subjectMail, htmlMail);
 
