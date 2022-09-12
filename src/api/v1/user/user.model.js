@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-<<<<<<< HEAD
       trim: true,
       required: true,
       maxLength: 25,
@@ -25,19 +24,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-=======
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: String,
-    },
-    password: {
-      type: String,
->>>>>>> b24313c (reset password user)
     },
     status: {
       type: String,
@@ -47,7 +33,6 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-<<<<<<< HEAD
     deleted_at: {
       type: Date,
       default: null,
@@ -67,11 +52,6 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.plugin(mongoosePaginate);
-=======
-  },
-  { timestamps: true }
-);
->>>>>>> b24313c (reset password user)
 
 const User = mongoose.model('User', userSchema);
 

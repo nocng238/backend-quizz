@@ -10,15 +10,14 @@ const {
   resetPassword,
 } = require('./user.controller');
 
-
-
 router.get('/', getUsers);
 
+router.get('/:id', detailUser);
+
 router.post('/', postUser);
-// PORT - domain.com/api/v1/users/resetPass/:id
-router.put('/resetPass/:id', resetPassword);
+
+router.post('/resetPass/:id', resetPassword);
 
 router.put('/:id', putUser);
-
 
 module.exports = router;

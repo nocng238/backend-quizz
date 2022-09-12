@@ -1,17 +1,16 @@
 const Joi = require('joi');
 
-const { STATUS_OPTIONS, NAME_VALIDATE_REGEX, PHONE_VALIDATE_REGEX } = require('../../../constants/User');
+const {
+  STATUS_OPTIONS,
+  NAME_VALIDATE_REGEX,
+  PHONE_VALIDATE_REGEX,
+} = require('../../../constants/User');
 
 const createValidate = Joi.object({
-  name: Joi.string()
-    .empty('')
-    .min(3)
-    .max(30)
-    .required()
-    .messages({
-      'string.base': `Invalid name`,
-      'any.required': `Need to enter enough information`,
-    }),
+  name: Joi.string().empty('').min(3).max(30).required().messages({
+    'string.base': `Invalid name`,
+    'any.required': `Need to enter enough information`,
+  }),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } })
     .required()
@@ -59,7 +58,7 @@ const updateValidate = Joi.object({
       'object.valid': `"status" must be one of [active, inactive]`,
       'any.required': `"status" is not allowed to be empty`,
     }),
-})
+});
 
 module.exports = {
   createValidate,
