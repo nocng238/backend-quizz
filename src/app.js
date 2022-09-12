@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-
 const mongoose = require('./database');
 
 const app = express();
@@ -23,7 +22,6 @@ app.get('/', (req, res) => {
     message: 'Welcome to Dev Plus',
   });
 });
-
 
 app.use('/', require('./routes'));
 
