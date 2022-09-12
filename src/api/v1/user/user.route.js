@@ -1,22 +1,12 @@
 const express = require('express');
 
-const User = require('./user.model');
-
 const router = express.Router();
 
-const { getUsers } = require('./user.controller');
+const { getUsers, postUser } = require('./user.controller');
 
 // GET - domain.com/api/v1/users
 router.get('/', getUsers);
 
-// POST - domain.com/api/v1/users
-router.post('/', async (req, res) => {
-  const users = await User.create({
-    username: 'test',
-    email: 'test@gmail.com',
-    password: '123123',
-  });
-  res.status(200).json(users);
-});
+router.post('/create', postUser);
 
 module.exports = router;
