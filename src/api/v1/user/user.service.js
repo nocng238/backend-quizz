@@ -1,5 +1,6 @@
-const User = require('./user.model');
 const nodemailer = require('nodemailer');
+
+const User = require('./user.model');
 const { mailUser, passMail } = require('../../../configs/index');
 
 const updatePassword = async (id, password) => {

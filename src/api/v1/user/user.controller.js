@@ -1,3 +1,6 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+
 const {
   updatePassword,
   sendGmail,
@@ -5,10 +8,8 @@ const {
   checkExistId,
 } = require('./user.service');
 const { mailValidate, passwordValidate } = require('./user.validate');
-const bcrypt = require('bcrypt');
 const { secretKey, frontendUrl } = require('../../../configs/index');
 const { ID_VALIDATE_REGEX } = require('../../../constants/index');
-const jwt = require('jsonwebtoken');
 
 const forgotPassword = async (req, res) => {
   const email = req.body.email;
