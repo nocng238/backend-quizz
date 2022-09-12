@@ -41,13 +41,7 @@ const sendGmail = (link, mail) => {
     subject: 'Confirmation letter forgot password',
     html: `Click the link to change the password: ${link}`,
   };
-  mailTransporter.sendMail(details, (error) => {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Send mail is OK!');
-    }
-  });
+  mailTransporter.sendMail(details);
 };
 module.exports = {
   updatePassword,

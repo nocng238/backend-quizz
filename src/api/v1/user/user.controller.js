@@ -7,6 +7,7 @@ const {
 const { mailValidate, passwordValidate } = require('./user.validate');
 const bcrypt = require('bcrypt');
 const { secretKey, frontendUrl } = require('../../../configs/index');
+const { ID_VALIDATE_REGEX } = require('../../../constants/index');
 const jwt = require('jsonwebtoken');
 
 const forgotPassword = async (req, res) => {
@@ -49,7 +50,7 @@ const forgotPassword = async (req, res) => {
 const checkLink = async (req, res) => {
   const { id, token } = req.params;
 
-  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+  if (!id.match(ID_VALIDATE_REGEX)) {
     return res.status(400).json({ message: 'Invalid link' });
   }
 
@@ -74,7 +75,7 @@ const resetPassword = async (req, res) => {
   if (error) {
     return res.status(400).json({ message: error.message });
   }
-  if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+  if (!id.match(ID_VALIDATE_REGEX)) {
     return res.status(400).json({
       message: 'User Not Exists!!',
     });
