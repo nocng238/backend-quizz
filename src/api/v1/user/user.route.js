@@ -15,9 +15,10 @@ const {
 router.get('/', getUsers);
 
 router.post('/', postUser);
+// PORT - domain.com/api/v1/users/resetPass/:id
+router.put('/resetPass/:id', resetPassword);
 
 router.put('/:id', putUser);
 
-router.patch('/resetPass/:id', resetPassword);
 
 module.exports = router;

@@ -88,7 +88,7 @@ const resetPass = async (id_user, body) => {
   return resetPass;
 };
 
-const sendGmail = (pass, mail) => {
+const sendGmail = (pass, mail, subject, html) => {
   let mailTransporter = nodemailer.createTransport({
     service: 'gmail',
 
@@ -103,17 +103,10 @@ const sendGmail = (pass, mail) => {
   let details = {
     from: mailUser,
     to: mail,
-    subject: 'Registration confirmation letter',
-    text: 'Send Gmail to notify ✔',
-    html: ` Thank you for signing up to Devplus! your password is: <b>${pass}</b>`,
+    subject: subject,
+    html: `${html} <b>${pass}</b>`,
   };
-  mailTransporter.sendMail(details, (error) => {
-    if (error) {
-      console.log('Send mail is error!');
-    } else {
-      console.log('Send mail is OK!');
-    }
-  });
+  mailTransporter.sendMail(details);
 };
 
 const updateUser = async (id, body) => {

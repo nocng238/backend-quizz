@@ -168,8 +168,10 @@ const resetPassword = async (req, res) => {
   try {
     const user = await resetPass(userId, changePass);
 
+    const subjectMail = 'Password reset confirmation email';
+    const htmlMail = 'Your password is :';
     //send mail
-    await sendGmail(randomPassword, user.email);
+    await sendGmail(randomPassword, user.email, subjectMail, htmlMail);
 
     res.status(200).json({
       msg: 'Reset password successfully!',
