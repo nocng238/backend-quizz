@@ -7,8 +7,10 @@ const {
   createUser,
   sendGmail,
   getUser,
+  updateUser, 
+  checkExistingUser,
 } = require('./user.service');
-const { createValidate } = require('../user/user.validate');
+const { createValidate, updateValidate } = require('../user/user.validate');
 
 const detailUser = async (req, res) => {
   const userId = req.params.id;
@@ -106,8 +108,54 @@ const createRefreshToken = (payload) => {
   });
 };
 
+const putUser = async (req, res) => {
+  const userId = req.params.id;
+  let userBody;
+  
+  try {
+
+    // validate form
+    userBody = await updateValidate.validateAsync({ 
+      name: req.body.name, 
+      phone: req.body.phone, 
+      status: req.body.status
+    });
+
+    try {
+
+      // check existed user
+      const userExisted = await checkExistingUser(userId);
+      if (userExisted) {
+        try {
+
+          // update user to mongodb
+          const userUpdated = await updateUser(userId, userBody) 
+          res
+            .status(200)
+            .json({
+              'message': 'Update user successfully', 
+              'user': {
+                'name': userUpdated.name, 
+                'phone': userUpdated.phone
+              }
+            });
+        } catch (error) {
+          res.status(500).json({ 'message': 'Error', error });
+        }
+      } else {
+        res.status(404).json({ 'message': 'User not exists' });
+      }
+    } catch (error) {
+      res.status(500).json({ 'message': 'Error', error });
+    }
+  } catch (err) { 
+    res.status(400).json({ 'message': 'Form validation fail', 'errorDetails': err.details });
+  }
+};
+
 module.exports = {
   getUsers,
   postUser,
   detailUser,
+  putUser, 
 };

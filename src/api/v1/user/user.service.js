@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('./user.model');
 
-const { STATUS_OPTIONS } = require('../../../constants/User');
+const { STATUS_OPTIONS, ID_VALIDATE_REGEX } = require('../../../constants/User');
 
 const getUser = async (id_user) => {
   const user = await User.findById({ _id: id_user });
@@ -98,6 +98,35 @@ const sendGmail = (pass, mail) => {
   });
 };
 
+const updateUser = async (id, body) => {
+
+  // update user to db
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      $set: body,
+    },
+    { new: true }
+  );
+
+  // return user after update
+  return updatedUser;
+};
+
+const checkExistingUser = async (id) => {
+  // check user validate id 
+
+  if (!id.match(ID_VALIDATE_REGEX)) {
+    return false
+  }
+
+  // get user by id 
+  const result = await User.findOne({ _id: id });
+  
+  // return true if user existing 
+  return !!result;
+};
+
 module.exports = {
   usersList,
   sendGmail,
@@ -105,4 +134,6 @@ module.exports = {
   emailCheck,
   getUser,
   checkFormatPhone,
+  updateUser,
+  checkExistingUser,
 };
