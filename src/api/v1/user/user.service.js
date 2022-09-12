@@ -6,6 +6,11 @@ const User = require('./user.model');
 
 const { STATUS_OPTIONS } = require('../../../constants/User');
 
+const getUser = async (id_user) => {
+  const user = await User.findById({ _id: id_user });
+  return user;
+};
+
 const usersList = async (search, filters = {}, options = {}) => {
   filters.status === 'all'
     ? (filters.status = [...STATUS_OPTIONS])
@@ -98,5 +103,6 @@ module.exports = {
   sendGmail,
   createUser,
   emailCheck,
+  getUser,
   checkFormatPhone,
 };

@@ -6,8 +6,26 @@ const {
   checkFormatPhone,
   createUser,
   sendGmail,
+  getUser,
 } = require('./user.service');
 const { createValidate } = require('../user/user.validate');
+
+const detailUser = async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const user = await getUser(userId);
+    res.status(200).json({
+      user: {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        status: user.status,
+      },
+    });
+  } catch (error) {
+    return res.status(400).json({ error: 'User does not exist!!!' });
+  }
+};
 
 const getUsers = async (req, res, next) => {
   try {
@@ -88,4 +106,8 @@ const createRefreshToken = (payload) => {
   });
 };
 
-module.exports = { getUsers, postUser };
+module.exports = {
+  getUsers,
+  postUser,
+  detailUser,
+};
