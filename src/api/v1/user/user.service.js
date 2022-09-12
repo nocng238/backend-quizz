@@ -3,8 +3,12 @@ const generator = require('generate-password');
 const bcrypt = require('bcrypt');
 
 const User = require('./user.model');
+const { mailUser, passMail } = require('../../../configs/index');
 
-const { STATUS_OPTIONS, ID_VALIDATE_REGEX } = require('../../../constants/User');
+const {
+  STATUS_OPTIONS,
+  ID_VALIDATE_REGEX,
+} = require('../../../constants/User');
 
 const getUser = async (id_user) => {
   const user = await User.findById({ _id: id_user });
@@ -73,33 +77,39 @@ const createUser = async (username, email, phone) => {
   };
 };
 
-const sendGmail = (pass, mail) => {
+const resetPass = async (id_user, body) => {
+  const resetPass = await User.findByIdAndUpdate(
+    id_user,
+    {
+      $set: body,
+    },
+    { new: true }
+  );
+  return resetPass;
+};
+
+const sendGmail = (pass, mail, subject, html) => {
   let mailTransporter = nodemailer.createTransport({
     service: 'gmail',
+
     auth: {
-      user: 'quy.nguyen@devplus.edu.vn',
-      pass: 'quyquy111@',
+      user: mailUser,
+      pass: passMail,
+    },
+    tls: {
+      rejectUnauthorized: false,
     },
   });
-
   let details = {
-    from: 'quy.nguyen@devplus.edu.vn',
+    from: mailUser,
     to: mail,
-    subject: 'Registration confirmation letter',
-    text: 'Send Gmail to notify ✔',
-    html: ` Thank you for signing up to Devplus! your password is: <b>${pass}</b>`,
+    subject: subject,
+    html: `${html} <b>${pass}</b>`,
   };
-  mailTransporter.sendMail(details, (error) => {
-    if (error) {
-      console.log('Send mail is error!');
-    } else {
-      console.log('Send mail is OK!');
-    }
-  });
+  mailTransporter.sendMail(details);
 };
 
 const updateUser = async (id, body) => {
-
   // update user to db
   const updatedUser = await User.findByIdAndUpdate(
     id,
@@ -114,16 +124,16 @@ const updateUser = async (id, body) => {
 };
 
 const checkExistingUser = async (id) => {
-  // check user validate id 
+  // check user validate id
 
   if (!id.match(ID_VALIDATE_REGEX)) {
-    return false
+    return false;
   }
 
-  // get user by id 
+  // get user by id
   const result = await User.findOne({ _id: id });
-  
-  // return true if user existing 
+
+  // return true if user existing
   return !!result;
 };
 
@@ -136,4 +146,5 @@ module.exports = {
   checkFormatPhone,
   updateUser,
   checkExistingUser,
+  resetPass,
 };
