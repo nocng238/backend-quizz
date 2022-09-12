@@ -4,7 +4,7 @@ const generator = require('generate-password');
 
 const {
   usersList,
-  emailCheck,
+  checkEmailExisted,
   checkFormatPhone,
   createUser,
   sendGmail,
@@ -63,7 +63,7 @@ const postUser = async (req, res) => {
     }
 
     // check e-mail
-    const emailExisted = await emailCheck(email);
+    const emailExisted = await checkEmailExisted(email);
     if (emailExisted) {
       return res.status(400).json({ msg: 'This email already exists!!!' });
     }
@@ -75,7 +75,7 @@ const postUser = async (req, res) => {
         .json({ msg: 'Phone number must be greater than 10 and be number!' });
     }
 
-    const newUser = await createUser(username, email, phone);
+    const newUser = await createUser(req.body);
 
     const access_token = createAccessToken({ id: newUser.user._id });
     const refresh_token = createRefreshToken({ id: newUser.user._id });
