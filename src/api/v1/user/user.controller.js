@@ -161,10 +161,28 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const deleteUsers = async (req, res) => {
+  const userId = req.params.id;
+  const checkExistedUser = await User.findById(userId);
+
+  if (checkExistedUser == null) {
+    return res.status(404).json({ message: 'User does not exist' });
+  } else if (checkExistedUser.deleted == true) {
+    return res.status(404).json({ message: 'User was deleted' });
+  }
+  try {
+    await User.deleteById(userId);
+    res.status(200).json({ message: 'Delete User Successfully' });
+  } catch (err) {
+    res.status(404).json({ message: ' Page Not Found' });
+  }
+};
+
 module.exports = {
   getUsers,
   postUser,
   detailUser,
   putUser,
   resetPassword,
+  deleteUsers,
 };
