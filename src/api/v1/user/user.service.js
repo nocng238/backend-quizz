@@ -46,9 +46,8 @@ const usersList = async (search, filters = {}, options = {}) => {
   return usersPaginate;
 };
 
-const emailCheck = async (email) => {
-  const result = await User.findOne({ email });
-  return result ? true : false;
+const checkEmailExisted = async (email) => {
+  return await User.findOne({ email });
 };
 
 const checkFormatPhone = (phone) => {
@@ -58,21 +57,18 @@ const checkFormatPhone = (phone) => {
   return true;
 };
 
-const createUser = async (username, email, phone) => {
+const createUser = async (params) => {
   const randomPassword = generator.generate({
-    length: 6,
+    length: 8,
     numbers: true,
   });
 
-  //hash passwork
-  const passwordHash = await bcrypt.hash(randomPassword, 12);
-
-  const newUser = new User({ username, email, phone, password: passwordHash });
-
-  const savedUser = await newUser.save();
+  // Hash password
+  params.password = await bcrypt.hash(randomPassword, 12);
+  const user = await User.create(params);
 
   return {
-    user: savedUser,
+    user,
     randomPassword,
   };
 };
@@ -141,10 +137,10 @@ module.exports = {
   usersList,
   sendGmail,
   createUser,
-  emailCheck,
-  getUser,
+  checkEmailExisted,
   checkFormatPhone,
   updateUser,
+  getUser,
   checkExistingUser,
   resetPass,
 };

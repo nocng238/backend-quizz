@@ -4,7 +4,7 @@ const generator = require('generate-password');
 
 const {
   usersList,
-  emailCheck,
+  checkEmailExisted,
   checkFormatPhone,
   createUser,
   sendGmail,
@@ -55,7 +55,7 @@ const getUsers = async (req, res, next) => {
 
 const postUser = async (req, res) => {
   try {
-    const { username, email, phone } = req.body;
+    const { name, email, phone } = req.body;
 
     const { error, value } = createValidate.validate(req.body);
     if (error) {
@@ -63,7 +63,7 @@ const postUser = async (req, res) => {
     }
 
     // check e-mail
-    const emailExisted = await emailCheck(email);
+    const emailExisted = await checkEmailExisted(email);
     if (emailExisted) {
       return res.status(400).json({ msg: 'This email already exists!!!' });
     }
@@ -75,7 +75,7 @@ const postUser = async (req, res) => {
         .json({ msg: 'Phone number must be greater than 10 and be number!' });
     }
 
-    const newUser = await createUser(username, email, phone);
+    const newUser = await createUser(req.body);
 
     const access_token = createAccessToken({ id: newUser.user._id });
     const refresh_token = createRefreshToken({ id: newUser.user._id });
@@ -86,8 +86,11 @@ const postUser = async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
+
     //send mail
-    await sendGmail(newUser.randomPassword, email);
+    const subjectMail = 'Email notification of successful user account creation';
+    const htmlMail = 'Thank you for signing up to Devplus! your password is: ';
+    sendGmail(newUser.randomPassword, email, subjectMail, htmlMail);
 
     res.json({
       msg: 'Create user successfully!',
