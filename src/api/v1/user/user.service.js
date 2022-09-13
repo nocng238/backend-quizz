@@ -140,6 +140,7 @@ module.exports = {
   checkEmailExisted,
   checkFormatPhone,
   updateUser,
+  getUser,
   checkExistingUser,
   resetPass,
 };
