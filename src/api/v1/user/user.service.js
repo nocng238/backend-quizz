@@ -63,7 +63,7 @@ const createUser = async (params) => {
     numbers: true,
   });
 
-  // Hash passwork
+  // Hash password
   params.password = await bcrypt.hash(randomPassword, 12);
   const user = await User.create(params);
 

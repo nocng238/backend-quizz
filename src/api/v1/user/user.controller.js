@@ -55,7 +55,7 @@ const getUsers = async (req, res, next) => {
 
 const postUser = async (req, res) => {
   try {
-    const { username, email, phone } = req.body;
+    const { name, email, phone } = req.body;
 
     const { error, value } = createValidate.validate(req.body);
     if (error) {
