@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
+const mongooseDelete = require('mongoose-delete');
 
 const userSchema = new mongoose.Schema(
   {
@@ -52,6 +53,7 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.plugin(mongoosePaginate);
+userSchema.plugin(mongooseDelete);
 
 const User = mongoose.model('User', userSchema);
 
