@@ -120,14 +120,13 @@ const updateUser = async (id, body) => {
 };
 
 const checkExistingUser = async (id) => {
-  // check user validate id
 
+  // check user validate id
   if (!id.match(ID_VALIDATE_REGEX)) {
     return false;
   }
 
-  // get user by id
-  const result = await User.findOne({ _id: id });
+  const result = await User.findOne({ _id: id, deleted_at: null  });
 
   // return true if user existing
   return !!result;
