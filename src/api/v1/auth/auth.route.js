@@ -15,8 +15,8 @@ router.get('/', async (req, res) => {
   res.status(200).json(users);
 });
 
-router.post('/forgotPass', forgotPassword);
-router.get('/reset-password/:id/:token', checkLink);
-router.post('/reset-password/:id/:token', resetPassword);
+router.post('/forgot-password', forgotPassword);
+router.get('/reset-password/:token', checkLink);
+router.post('/reset-password/:token', resetPassword);
 
 module.exports = router;
