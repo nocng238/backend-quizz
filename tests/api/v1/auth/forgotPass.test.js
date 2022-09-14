@@ -1,9 +1,9 @@
 const request = require('../../../request');
-const { LINK_TOKEN_TEST } = require('../../../../src/constants/index');
-describe('PORT /auth/forgotPass', () => {
+const { LINK_TOKEN_TEST } = require('../../../../src/constants/Auth');
+describe('PORT /auth/forgot-password', () => {
   test('responds with json', async () => {
     const response = await request
-      .post('/api/v1/auth/forgotPass')
+      .post('/api/v1/auth/forgot-password')
       .set('Accept', 'application/json')
       .send({
         email: 'testgame2221@gmail.com',
@@ -15,7 +15,7 @@ describe('PORT /auth/forgotPass', () => {
   });
   test('responds with json', async () => {
     const response = await request
-      .post('/api/v1/auth/forgotPass')
+      .post('/api/v1/auth/forgot-password')
       .set('Accept', 'application/json')
       .send({
         email: 'testgame@gmail.com',
@@ -27,19 +27,13 @@ describe('PORT /auth/forgotPass', () => {
   });
   test('responds with json', async () => {
     const response = await request
-      .post('/api/v1/auth/forgotPass')
+      .post('/api/v1/auth/forgot-password')
       .set('Accept', 'application/json')
       .send({});
     expect(response.status).toEqual(400);
     expect(response.body.message).toEqual('Need to enter enough information');
   });
-  test('responds with json', async () => {
-    const response = await request
-      .get(LINK_TOKEN_TEST)
-      .set('Accept', 'application/json');
-    expect(response.status).toEqual(400);
-    expect(response.body.message).toEqual('Invalid link');
-  });
+
   test('responds with json', async () => {
     const response = await request
       .post(LINK_TOKEN_TEST)
@@ -51,16 +45,6 @@ describe('PORT /auth/forgotPass', () => {
     expect(response.body.message).toEqual(
       'Password contains at least one number and one special character'
     );
-  });
-  test('responds with json', async () => {
-    const response = await request
-      .post(`${LINK_TOKEN_TEST}asdqwe`)
-      .set('Accept', 'application/json')
-      .send({
-        password: '12345678a!',
-      });
-    expect(response.status).toEqual(400);
-    expect(response.body.message).toEqual('User Not Exists!!');
   });
 
   test('responds with json', async () => {
