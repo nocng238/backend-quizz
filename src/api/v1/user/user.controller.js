@@ -86,9 +86,9 @@ const postUser = async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
-
     //send mail
-    const subjectMail = 'Email notification of successful user account creation';
+    const subjectMail =
+      'Email notification of successful user account creation';
     const htmlMail = 'Thank you for signing up to Devplus! your password is: ';
     sendGmail(newUser.randomPassword, email, subjectMail, htmlMail);
 
