@@ -16,14 +16,17 @@ const updatePassword = async (id, password) => {
   );
   return forgotPass;
 };
+
 const checkExistEmail = async (email) => {
   const checkMail = await User.findOne({ email: email });
   return checkMail;
 };
+
 const checkExistId = async (id) => {
   const oldUser = await User.findOne({ _id: id });
   return oldUser;
 };
+
 const sendGmail = (link, mail) => {
   let mailTransporter = nodemailer.createTransport({
     service: 'gmail',
@@ -44,9 +47,24 @@ const sendGmail = (link, mail) => {
   };
   mailTransporter.sendMail(details);
 };
+
+const changePassFirstLogin = async (id, body) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      $set: body,
+    },
+    { new: true }
+  );
+
+  // return true if change password success
+  return !!updatedUser;
+};
+
 module.exports = {
   updatePassword,
   sendGmail,
   checkExistEmail,
   checkExistId,
+  changePassFirstLogin,
 };

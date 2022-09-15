@@ -4,6 +4,7 @@ const {
   forgotPassword,
   checkLink,
   resetPassword,
+  putPassFirstLogin,
 } = require('./auth.controller');
 const User = require('../user/user.model');
 
@@ -18,5 +19,6 @@ router.get('/', async (req, res) => {
 router.post('/forgot-password', forgotPassword);
 router.get('/reset-password/:token', checkLink);
 router.post('/reset-password/:token', resetPassword);
+router.put('/change-password-first-login/:id', putPassFirstLogin);
 
 module.exports = router;

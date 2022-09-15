@@ -12,6 +12,7 @@ const mailValidate = Joi.object({
       'string.email': `Invalid email`,
     }),
 });
+
 const changePassValidate = Joi.object({
   password: Joi.string()
     .min(8)
@@ -25,6 +26,7 @@ const changePassValidate = Joi.object({
       'string.empty': `Need to enter enough information`,
       'string.pattern.base': `Password contains at least one number and one special character`,
     }),
+    
   confirmedPassword: Joi.string()
     .required()
     .valid(Joi.ref('password'))
