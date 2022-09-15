@@ -107,15 +107,15 @@ const putPassFirstLogin = async (req, res) => {
         }
 
         await changePassFirstLogin(userId, userBody)
-        res.status(200).json({"message": "Change password successfully" });
+        res.status(200).json({'message': 'Change password successfully' });
       } else {
-        res.status(404).json({ "message": "User not exists" });
+        res.status(404).json({ 'message': 'User not exists' });
       }
     } catch (error) {
-      res.status(500).json({ "message": "Error", error });
+      res.status(500).json({ 'message': 'Error', error });
     }
   } catch (err) { 
-    res.status(400).json({ "message": "Form validation fail", "errorDetails": err.details });
+    res.status(400).json({ 'message': 'Form validation fail', 'errorDetails': err.details });
   }
 };
 

@@ -55,15 +55,15 @@ describe('PUT /change-password-first-login/:id', () => {
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "Need to enter enough information",
-          "path": [
-            "password"
+          'message': 'Need to enter enough information',
+          'path': [
+            'password'
           ],
-          "type": "string.empty",
-          "context": {
-            "label": "password",
-            "value": "",
-            "key": "password"
+          'type': 'string.empty',
+          'context': {
+            'label': 'password',
+            'value': '',
+            'key': 'password'
           }
         }
       ]
@@ -84,33 +84,33 @@ describe('PUT /change-password-first-login/:id', () => {
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "Confirmed password must match password",
-          "path": [
-            "confirmedPassword"
+          'message': 'Confirmed password must match password',
+          'path': [
+            'confirmedPassword'
           ],
-          "type": "any.only",
-          "context": {
-            "valids": [
+          'type': 'any.only',
+          'context': {
+            'valids': [
               {
-                "adjust": null,
-                "in": false,
-                "iterables": null,
-                "map": null,
-                "separator": ".",
-                "type": "value",
-                "ancestor": 1,
-                "path": [
-                  "password"
+                'adjust': null,
+                'in': false,
+                'iterables': null,
+                'map': null,
+                'separator': '.',
+                'type': 'value',
+                'ancestor': 1,
+                'path': [
+                  'password'
                 ],
-                "depth": 1,
-                "key": "password",
-                "root": "password",
-                "display": "ref:password"
+                'depth': 1,
+                'key': 'password',
+                'root': 'password',
+                'display': 'ref:password'
               }
             ],
-            "label": "confirmedPassword",
-            "value": "",
-            "key": "confirmedPassword"
+            'label': 'confirmedPassword',
+            'value': '',
+            'key': 'confirmedPassword'
           }
         }
       ]
@@ -131,16 +131,16 @@ describe('PUT /change-password-first-login/:id', () => {
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "Password characters less than 8",
-          "path": [
-            "password"
+          'message': 'Password characters less than 8',
+          'path': [
+            'password'
           ],
-          "type": "string.min",
-          "context": {
-            "limit": 8,
-            "value": "1234567",
-            "label": "password",
-            "key": "password"
+          'type': 'string.min',
+          'context': {
+            'limit': 8,
+            'value': '1234567',
+            'label': 'password',
+            'key': 'password'
           }
         }
       ]
@@ -161,16 +161,16 @@ describe('PUT /change-password-first-login/:id', () => {
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "Password Characters whose length exceeds 30",
-          "path": [
-            "password"
+          'message': 'Password Characters whose length exceeds 30',
+          'path': [
+            'password'
           ],
-          "type": "string.max",
-          "context": {
-            "limit": 30,
-            "value": "ssssssssssssssssssssssssssssssssss",
-            "label": "password",
-            "key": "password"
+          'type': 'string.max',
+          'context': {
+            'limit': 30,
+            'value': 'ssssssssssssssssssssssssssssssssss',
+            'label': 'password',
+            'key': 'password'
           }
         }
       ]
@@ -191,16 +191,16 @@ describe('PUT /change-password-first-login/:id', () => {
     expect(response.body.errorDetails).toMatchObject(
       [
         {
-          "message": "Password contains at least one number and one special character",
-          "path": [
-            "password"
+          'message': 'Password contains at least one number and one special character',
+          'path': [
+            'password'
           ],
-          "type": "string.pattern.base",
-          "context": {
-            "regex": {},
-            "value": "12345678",
-            "label": "password",
-            "key": "password"
+          'type': 'string.pattern.base',
+          'context': {
+            'regex': {},
+            'value': '12345678',
+            'label': 'password',
+            'key': 'password'
           }
         }
       ]
