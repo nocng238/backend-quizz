@@ -3,8 +3,17 @@ const generator = require('generate-password');
 const bcrypt = require('bcrypt');
 
 const User = require('./user.model');
+const { mailUser, passMail } = require('../../../configs/index');
 
-const { STATUS_OPTIONS } = require('../../../constants/User');
+const {
+  STATUS_OPTIONS,
+  ID_VALIDATE_REGEX,
+} = require('../../../constants/User');
+
+const getUser = async (id_user) => {
+  const user = await User.findById({ _id: id_user });
+  return user;
+};
 
 const usersList = async (search, filters = {}, options = {}) => {
   filters.status === 'all'
@@ -37,9 +46,8 @@ const usersList = async (search, filters = {}, options = {}) => {
   return usersPaginate;
 };
 
-const emailCheck = async (email) => {
-  const result = await User.findOne({ email });
-  return result ? true : false;
+const checkEmailExisted = async (email) => {
+  return await User.findOne({ email });
 };
 
 const checkFormatPhone = (phone) => {
@@ -49,52 +57,90 @@ const checkFormatPhone = (phone) => {
   return true;
 };
 
-const createUser = async (username, email, phone) => {
+const createUser = async (params) => {
   const randomPassword = generator.generate({
-    length: 6,
+    length: 8,
     numbers: true,
   });
 
-  //hash passwork
-  const passwordHash = await bcrypt.hash(randomPassword, 12);
-  const newUser = new User({ username, email, phone, password: passwordHash });
-  const savedUser = await newUser.save();
+  // Hash password
+  params.password = await bcrypt.hash(randomPassword, 12);
+  const user = await User.create(params);
 
   return {
-    user: savedUser,
+    user,
     randomPassword,
   };
 };
 
-const sendGmail = (pass, mail) => {
+const resetPass = async (id_user, body) => {
+  const resetPass = await User.findByIdAndUpdate(
+    id_user,
+    {
+      $set: body,
+    },
+    { new: true }
+  );
+  return resetPass;
+};
+
+const sendGmail = (pass, mail, subject, html) => {
   let mailTransporter = nodemailer.createTransport({
     service: 'gmail',
+
     auth: {
-      user: 'quy.nguyen@devplus.edu.vn',
-      pass: 'quyquy111@',
+      user: mailUser,
+      pass: passMail,
+    },
+    tls: {
+      rejectUnauthorized: false,
     },
   });
-
   let details = {
-    from: 'quy.nguyen@devplus.edu.vn',
+    from: mailUser,
     to: mail,
-    subject: 'Registration confirmation letter',
-    text: 'Send Gmail to notify ✔',
-    html: ` Thank you for signing up to Devplus! your password is: <b>${pass}</b>`,
+    subject: subject,
+    html: `${html} <b>${pass}</b>`,
   };
-  mailTransporter.sendMail(details, (error) => {
-    if (error) {
-      console.log('Send mail is error!');
-    } else {
-      console.log('Send mail is OK!');
-    }
-  });
+  mailTransporter.sendMail(details);
+};
+
+const updateUser = async (id, body) => {
+  // update user to db
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      $set: body,
+    },
+    { new: true }
+  );
+
+  // return user after update
+  return updatedUser;
+};
+
+const checkExistingUser = async (id) => {
+  // check user validate id
+
+  if (!id.match(ID_VALIDATE_REGEX)) {
+    return false;
+  }
+
+  // get user by id
+  const result = await User.findOne({ _id: id });
+
+  // return true if user existing
+  return !!result;
 };
 
 module.exports = {
   usersList,
   sendGmail,
   createUser,
-  emailCheck,
+  checkEmailExisted,
   checkFormatPhone,
+  updateUser,
+  getUser,
+  checkExistingUser,
+  resetPass,
 };

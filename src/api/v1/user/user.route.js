@@ -1,13 +1,23 @@
 const express = require('express');
-const userController = require('./user.controller');
 
 const router = express.Router();
 
-const { getUsers, postUser } = require('./user.controller');
+const {
+  getUsers,
+  postUser,
+  detailUser,
+  putUser,
+  resetPassword,
+} = require('./user.controller');
 
-// GET - domain.com/api/v1/users
 router.get('/', getUsers);
 
+router.get('/:id', detailUser);
+
 router.post('/', postUser);
+
+router.post('/resetPass/:id', resetPassword);
+
+router.put('/:id', putUser);
 
 module.exports = router;
