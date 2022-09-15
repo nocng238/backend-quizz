@@ -1,5 +1,7 @@
-const request = require('supertest');
+const supertest = require('supertest');
+const app = require('../src/app');
+const request = supertest(app);
 
 require('dotenv').config();
 
-module.exports = request(process.env.BASE_URL);
+module.exports = request;

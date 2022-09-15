@@ -5,7 +5,9 @@ const {
   updatePassword,
   sendGmail,
   checkExistEmail,
+  changePassFirstLogin,
 } = require('./auth.service');
+const { checkExistingUser  } = require('../user/user.service');
 const { mailValidate, changePassValidate } = require('./auth.validate');
 const { secretKey, frontendUrl } = require('../../../configs/index');
 
@@ -82,8 +84,44 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const putPassFirstLogin = async (req, res) => {
+  const userId = req.params.id;
+  let userBody;
+  
+  try {
+    await changePassValidate.validateAsync({ 
+      password: req.body.password, 
+      confirmedPassword: req.body.confirmedPassword, 
+    });
+
+    try {
+      if ((await checkExistingUser(userId))) {
+        
+        //hash password
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+        userBody = {
+          password: hashPassword,
+          verified_date: Date.now(),
+        }
+
+        await changePassFirstLogin(userId, userBody)
+        res.status(200).json({"message": "Change password successfully" });
+      } else {
+        res.status(404).json({ "message": "User not exists" });
+      }
+    } catch (error) {
+      res.status(500).json({ "message": "Error", error });
+    }
+  } catch (err) { 
+    res.status(400).json({ "message": "Form validation fail", "errorDetails": err.details });
+  }
+};
+
 module.exports = {
   forgotPassword,
   checkLink,
   resetPassword,
+  putPassFirstLogin,
 };
