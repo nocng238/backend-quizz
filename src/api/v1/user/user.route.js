@@ -12,15 +12,15 @@ const {
 } = require('./user.controller');
 
 router.get('/', getUsers);
-// delete - domain.com/api/v1/users/delete/:id
-router.delete('/delete/:id', deleteUsers);
-
-router.get('/:id', detailUser);
 
 router.post('/', postUser);
 
-router.post('/resetPass/:id', resetPassword);
+router.get('/:id', detailUser);
+
+router.delete('/:id', deleteUsers);
 
 router.put('/:id', putUser);
+
+router.post('/reset-password/:id', resetPassword);
 
 module.exports = router;
