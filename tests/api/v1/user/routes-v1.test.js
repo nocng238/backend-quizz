@@ -1,4 +1,4 @@
-const request = require('../../request');
+const request = require('../../../request');
 
 describe('GET - Check API version', () => {
   test('It should return version', async () => {

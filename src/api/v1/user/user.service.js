@@ -126,8 +126,7 @@ const checkExistingUser = async (id) => {
     return false;
   }
 
-  // get user by id
-  const result = await User.findOne({ _id: id });
+  const result = await User.findOne({ _id: id, deleted_at: null  });
 
   // return true if user existing
   return !!result;
