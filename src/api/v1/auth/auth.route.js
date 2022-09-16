@@ -1,14 +1,17 @@
 const express = require('express');
+const router = express.Router();
 
 const {
   forgotPassword,
   checkLink,
   resetPassword,
   putPassFirstLogin,
+  login
 } = require('./auth.controller');
 const User = require('../user/user.model');
 
-const router = express.Router();
+// POST - domain.com/api/v1/auth/login
+router.post('/login', login);
 
 // GET - domain.com/api/v1/users
 router.get('/', async (req, res) => {

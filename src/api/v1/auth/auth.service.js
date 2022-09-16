@@ -3,6 +3,10 @@ const nodemailer = require('nodemailer');
 const User = require('../user/user.model');
 const { mailUser, passMail } = require('../../../configs/index');
 
+const findUser = async (email) => {
+  return await User.findOne({ email })
+}
+
 const updatePassword = async (id, password) => {
   const forgotPass = await User.updateOne(
     {
@@ -67,4 +71,5 @@ module.exports = {
   checkExistEmail,
   checkExistId,
   changePassFirstLogin,
+  findUser
 };

@@ -120,8 +120,8 @@ const updateUser = async (id, body) => {
 };
 
 const checkExistingUser = async (id) => {
-
   // check user validate id
+
   if (!id.match(ID_VALIDATE_REGEX)) {
     return false;
   }
