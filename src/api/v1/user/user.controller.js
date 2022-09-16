@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const generator = require('generate-password');
 
@@ -11,7 +10,7 @@ const {
   getUser,
   updateUser,
   checkExistingUser,
-  resetPass,
+  deleteUser,
 } = require('./user.service');
 const { createValidate, updateValidate } = require('../user/user.validate');
 
@@ -59,59 +58,39 @@ const postUser = async (req, res) => {
 
     const { error, value } = createValidate.validate(req.body);
     if (error) {
-      return res.json({ meassage: error.message });
+      return res.status(400).json({ message: error.message });
     }
 
     // check e-mail
     const emailExisted = await checkEmailExisted(email);
     if (emailExisted) {
-      return res.status(400).json({ msg: 'This email already exists!!!' });
+      return res.status(400).json({ message: 'This email already exists!!!' });
     }
 
     // phone validate
     if (!checkFormatPhone(phone)) {
-      return res
-        .status(400)
-        .json({ msg: 'Phone number must be greater than 10 and be number!' });
+      return res.status(400).json({
+        message: 'Phone number must be greater than 10 and be number!',
+      });
     }
 
     const newUser = await createUser(req.body);
 
-    const access_token = createAccessToken({ id: newUser.user._id });
-    const refresh_token = createRefreshToken({ id: newUser.user._id });
-
-    res.cookie('refrestoken', refresh_token, {
-      httpOnly: true,
-      path: '/api/v1/refresh_token',
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
-
     //send mail
     const subjectMail =
       'Email notification of successful user account creation';
+
     const htmlMail = 'Thank you for signing up to Devplus! your password is: ';
+
     sendGmail(newUser.randomPassword, email, subjectMail, htmlMail);
 
-    res.json({
-      msg: 'Create user successfully!',
-      access_token,
+    res.status(200).json({
+      message: 'Create user successfully!',
       user: newUser.user,
     });
   } catch (error) {
-    return res.status(500).json({ msg: error.message });
+    return res.status(500).json({ message: error.message });
   }
-};
-
-const createAccessToken = (payload) => {
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: '1d',
-  });
-};
-
-const createRefreshToken = (payload) => {
-  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: '30d',
-  });
 };
 
 const putUser = async (req, res) => {
@@ -155,6 +134,7 @@ const putUser = async (req, res) => {
       .json({ message: 'Form validation fail', errorDetails: err.details });
   }
 };
+
 const resetPassword = async (req, res) => {
   const userId = req.params.id;
   const randomPassword = generator.generate({
@@ -169,7 +149,7 @@ const resetPassword = async (req, res) => {
   };
 
   try {
-    const user = await resetPass(userId, changePass);
+    const user = await updateUser(userId, changePass);
 
     const subjectMail = 'Password reset confirmation email';
     const htmlMail = 'Your password is :';
@@ -177,10 +157,10 @@ const resetPassword = async (req, res) => {
     await sendGmail(randomPassword, user.email, subjectMail, htmlMail);
 
     res.status(200).json({
-      msg: 'Reset password successfully!',
+      message: 'Reset password successfully!',
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(404).json({
       error: 'Email does not exist!!!',
     });
   }
@@ -188,18 +168,19 @@ const resetPassword = async (req, res) => {
 
 const deleteUsers = async (req, res) => {
   const userId = req.params.id;
-  const checkExistedUser = await User.findById(userId);
+  const userExisted = await checkExistingUser(userId);
 
-  if (checkExistedUser == null) {
-    return res.status(404).json({ message: 'User does not exist' });
-  } else if (checkExistedUser.deleted == true) {
-    return res.status(404).json({ message: 'User was deleted' });
+  if (userExisted == false) {
+    return res
+      .status(404)
+      .json({ message: 'User does not exist or has been deleted' });
   }
+
   try {
-    await User.deleteById(userId);
+    await deleteUser(userId);
     res.status(200).json({ message: 'Delete User Successfully' });
   } catch (err) {
-    res.status(404).json({ message: ' Page Not Found' });
+    res.status(404).json({ message: 'Page Not Found' });
   }
 };
 
