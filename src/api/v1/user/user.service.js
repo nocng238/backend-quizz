@@ -4,46 +4,21 @@ const bcrypt = require('bcrypt');
 
 const User = require('./user.model');
 const { mailUser, passMail } = require('../../../configs/index');
-
 const {
   STATUS_OPTIONS,
   ID_VALIDATE_REGEX,
 } = require('../../../constants/User');
 
-const getUser = async (id_user) => {
-  const user = await User.findById({ _id: id_user });
-  return user;
-};
+const checkExistingUser = async (userId) => {
+  // check user validate id
+  if (!userId.match(ID_VALIDATE_REGEX)) {
+    return false;
+  }
 
-const usersList = async (search, filters = {}, options = {}) => {
-  filters.status === 'all'
-    ? (filters.status = [...STATUS_OPTIONS])
-    : (filters.status = filters.status.split(','));
+  const result = await User.findOne({ _id: userId, deleted: false });
 
-  const limit = options.limit;
-  const offset = options.page * options.limit;
-
-  const condition = {
-    status: { $in: [...filters.status] },
-    $and: [
-      {
-        $or: [{ name: { $regex: search } }, { email: { $regex: search } }],
-      },
-      { deleted_at: null },
-    ],
-  };
-
-  const data = await User.paginate(condition, { offset, limit });
-
-  const usersPaginate = {
-    total: data.totalDocs,
-    page: data.page,
-    limit: data.limit,
-    status: filters.status,
-    users: data.docs,
-  };
-
-  return usersPaginate;
+  // return true if user existing
+  return !!result;
 };
 
 const checkEmailExisted = async (email) => {
@@ -55,33 +30,6 @@ const checkFormatPhone = (phone) => {
     return false;
   }
   return true;
-};
-
-const createUser = async (params) => {
-  const randomPassword = generator.generate({
-    length: 8,
-    numbers: true,
-  });
-
-  // Hash password
-  params.password = await bcrypt.hash(randomPassword, 12);
-  const user = await User.create(params);
-
-  return {
-    user,
-    randomPassword,
-  };
-};
-
-const resetPass = async (id_user, body) => {
-  const resetPass = await User.findByIdAndUpdate(
-    id_user,
-    {
-      $set: body,
-    },
-    { new: true }
-  );
-  return resetPass;
 };
 
 const sendGmail = (pass, mail, subject, html) => {
@@ -105,10 +53,62 @@ const sendGmail = (pass, mail, subject, html) => {
   mailTransporter.sendMail(details);
 };
 
-const updateUser = async (id, body) => {
+const getUser = async (userId) => {
+  const user = await User.findOne({ _id: userId, deleted: false });
+  return user;
+};
+
+const usersList = async (search, filters = {}, options = {}) => {
+  filters.status === 'all'
+    ? (filters.status = [...STATUS_OPTIONS])
+    : (filters.status = filters.status.split(','));
+
+  const limit = options.limit;
+  const offset = options.page * options.limit;
+
+  const condition = {
+    status: { $in: [...filters.status] },
+    $and: [
+      {
+        $or: [{ name: { $regex: search } }, { email: { $regex: search } }],
+      },
+      { deleted: false },
+    ],
+  };
+
+  const data = await User.paginate(condition, { offset, limit });
+
+  const usersPaginate = {
+    total: data.totalDocs,
+    page: data.page,
+    limit: data.limit,
+    status: filters.status,
+    users: data.docs,
+  };
+
+  return usersPaginate;
+};
+
+const createUser = async (params) => {
+  const randomPassword = generator.generate({
+    length: 8,
+    numbers: true,
+  });
+
+  // Hash password
+  params.password = await bcrypt.hash(randomPassword, 12);
+  const user = await User.create(params);
+
+  return {
+    user,
+    randomPassword,
+  };
+};
+
+const updateUser = async (userId, body) => {
   // update user to db
   const updatedUser = await User.findByIdAndUpdate(
-    id,
+    userId,
     {
       $set: body,
     },
@@ -119,17 +119,8 @@ const updateUser = async (id, body) => {
   return updatedUser;
 };
 
-const checkExistingUser = async (id) => {
-
-  // check user validate id
-  if (!id.match(ID_VALIDATE_REGEX)) {
-    return false;
-  }
-
-  const result = await User.findOne({ _id: id, deleted_at: null  });
-
-  // return true if user existing
-  return !!result;
+const deleteUser = async (userId) => {
+  await User.deleteById(userId);
 };
 
 module.exports = {
@@ -141,5 +132,5 @@ module.exports = {
   updateUser,
   getUser,
   checkExistingUser,
-  resetPass,
+  deleteUser,
 };
