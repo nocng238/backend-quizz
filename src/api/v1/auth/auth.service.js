@@ -61,8 +61,8 @@ const changePassFirstLogin = async (id, body) => {
     { new: true }
   );
 
-  // return true if change password success
-  return !!updatedUser;
+  // return updated user if change password success
+  return updatedUser;
 };
 
 module.exports = {

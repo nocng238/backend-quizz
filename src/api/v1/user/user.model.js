@@ -56,4 +56,5 @@ userSchema.plugin(mongoosePaginate);
 userSchema.plugin(mongooseDelete);
 
 const User = mongoose.model('User', userSchema);
+
 module.exports = User;
