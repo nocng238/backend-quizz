@@ -9,13 +9,13 @@ const {
   ID_VALIDATE_REGEX,
 } = require('../../../constants/User');
 
-const checkExistingUser = async (id) => {
+const checkExistingUser = async (userId) => {
   // check user validate id
-  if (!id.match(ID_VALIDATE_REGEX)) {
+  if (!userId.match(ID_VALIDATE_REGEX)) {
     return false;
   }
 
-  const result = await User.findOne({ _id: id, deleted: false });
+  const result = await User.findOne({ _id: userId, deleted: false });
 
   // return true if user existing
   return !!result;
@@ -53,8 +53,8 @@ const sendGmail = (pass, mail, subject, html) => {
   mailTransporter.sendMail(details);
 };
 
-const getUser = async (id_user) => {
-  const user = await User.findOne({ _id: id_user, deleted: false });
+const getUser = async (userId) => {
+  const user = await User.findOne({ _id: userId, deleted: false });
   return user;
 };
 
@@ -105,10 +105,10 @@ const createUser = async (params) => {
   };
 };
 
-const updateUser = async (id, body) => {
+const updateUser = async (userId, body) => {
   // update user to db
   const updatedUser = await User.findByIdAndUpdate(
-    id,
+    userId,
     {
       $set: body,
     },
@@ -119,8 +119,8 @@ const updateUser = async (id, body) => {
   return updatedUser;
 };
 
-const deleteUser = async (id) => {
-  await User.deleteById(id);
+const deleteUser = async (userId) => {
+  await User.deleteById(userId);
 };
 
 module.exports = {
