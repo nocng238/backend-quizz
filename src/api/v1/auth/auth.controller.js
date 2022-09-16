@@ -155,8 +155,9 @@ const putPassFirstLogin = async (req, res) => {
           verified_date: Date.now(),
         }
 
-        await changePassFirstLogin(userId, userBody)
-        res.status(200).json({ 'message': 'Change password successfully' });
+        const userUpdated = await changePassFirstLogin(userId, userBody);
+
+        res.status(200).json({'message': 'Change password successfully', 'verifiedDate': userUpdated.verified_date });
       } else {
         res.status(404).json({ 'message': 'User not exists' });
       }
