@@ -6,7 +6,7 @@ describe('POST /users', () => {
       .post('/api/v1/users')
       .send({
         name: 'test create user',
-        email: 'uwers13@gmail.com',
+        email: 'user01@gmail.com',
         phone: '0123456788',
       })
       .set('Accept', 'application/json');
@@ -25,20 +25,22 @@ describe('POST /users', () => {
       .set('Accept', 'application/json');
 
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Create user successfully!');
+    expect(response.body.message).toBe('This email already exists!!!');
   });
   test('Test the  create user when phone already exists.', async () => {
     const response = await request
       .post('/api/v1/users')
       .send({
         name: 'test create user',
-        email: 'email already exists',
-        phone: '0399665801',
+        email: 'user03@gmail.com',
+        phone: '039966',
       })
       .set('Accept', 'application/json');
 
     expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Create user successfully!');
+    expect(response.body.message).toBe(
+      'Phone number must be greater than 10 and be number!'
+    );
   });
   //// name not valid
   test('Test the  create user when not entering data for a field (name).', async () => {
