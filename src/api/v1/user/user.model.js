@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       trim: true,
       required: true,
-      maxLength: 25,
+      maxLength: 30,
     },
     email: {
       type: String,
@@ -19,30 +19,32 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
-      required: true,
-      maxLength: 10,
+      maxLength: 15,
     },
     password: {
       type: String,
       required: true,
     },
+    avatar: {
+      type: String,
+    },
     status: {
       type: String,
       default: 'active',
     },
-    verified_date: {
+    verifiedDate: {
       type: Date,
       default: null,
     },
-    deleted_at: {
+    deletedAt: {
       type: Date,
       default: null,
     },
-    created_by: {
+    createdBy: {
       type: mongoose.Types.ObjectId,
       ref: 'user',
     },
-    update_by: {
+    updateBy: {
       type: mongoose.Types.ObjectId,
       ref: 'user',
     },

@@ -1,37 +1,15 @@
-const bcrypt = require('bcrypt');
-const generator = require('generate-password');
-
+const { createUserValidate, updateUserValidate } = require('./user.validate');
 const {
-  usersList,
-  checkEmailExisted,
-  checkFormatPhone,
-  createUser,
-  sendGmail,
-  getUser,
-  updateUser,
-  checkExistingUser,
-  deleteUser,
+  getUsersService,
+  createUserService,
+  getUserService,
+  isEmailExisted,
+  updateUserService,
+  deleteUserService,
+  resetPasswordService,
 } = require('./user.service');
-const { createValidate, updateValidate } = require('../user/user.validate');
 
-const detailUser = async (req, res) => {
-  const userId = req.params.id;
-  try {
-    const user = await getUser(userId);
-    res.status(200).json({
-      user: {
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        status: user.status,
-      },
-    });
-  } catch (error) {
-    return res.status(400).json({ error: 'User does not exist!!!' });
-  }
-};
-
-const getUsers = async (req, res, next) => {
+const getUsers = async (req, res) => {
   try {
     const search = req.query.search || '';
 
@@ -44,150 +22,123 @@ const getUsers = async (req, res, next) => {
       limit: parseInt(req.query.limit) || 10,
     };
 
-    const users = await usersList(search, filters, options);
+    const sortKey = req.query.sort_key || 'createdAt';
+    const sortValue = req.query.sort_value || 'DESC';
+    const sort = {
+      [sortKey]: sortValue,
+    };
+
+    const users = await getUsersService(search, sort, filters, options);
 
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-const postUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
-    const { name, email, phone } = req.body;
-
-    const { error, value } = createValidate.validate(req.body);
+    const { error } = createUserValidate.validate(req.body);
     if (error) {
-      return res.status(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
-    // check e-mail
-    const emailExisted = await checkEmailExisted(email);
+
+    const { email } = req.body;
+
+    const emailExisted = await isEmailExisted(email);
     if (emailExisted) {
-      return res.status(400).json({ message: 'This email already exists!!!' });
+      res.status(400).json({ message: 'This email already existed' });
     }
 
-    // phone validate
-    if (!checkFormatPhone(phone)) {
-      return res
-        .status(400)
-        .json({ meassage: 'Phone number must be greater than 10 and be number!' });
-    }
-
-    const newUser = await createUser(req.body);
-
-    //send mail
-    const subjectMail =
-      'Email notification of successful user account creation';
-
-    const htmlMail = 'Thank you for signing up to Devplus! your password is: ';
-
-    sendGmail(newUser.randomPassword, email, subjectMail, htmlMail);
+    const user = await createUserService(req.body);
 
     res.status(200).json({
-      message: 'Create user successfully!',
-      user: newUser.user,
+      message: 'Create user successfully',
+      user,
     });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-const putUser = async (req, res) => {
+const getUser = async (req, res) => {
   const userId = req.params.id;
-  let userBody;
+  try {
+    const user = await getUserService(userId);
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const updateUser = async (req, res) => {
+  const userId = req.params.id;
+
+  const { error } = updateUserValidate.validate(req.body);
+  if (error) {
+    res.status(400).json({ message: error.message });
+  }
 
   try {
-    // validate form
-    userBody = await updateValidate.validateAsync({
-      name: req.body.name,
-      phone: req.body.phone,
-      status: req.body.status,
-    });
-
-    try {
-      // check existed user
-      const userExisted = await checkExistingUser(userId);
-      if (userExisted) {
-        try {
-          // update user to mongodb
-          const userUpdated = await updateUser(userId, userBody);
-          res.status(200).json({
-            message: 'Update user successfully',
-            user: {
-              name: userUpdated.name,
-              phone: userUpdated.phone,
-            },
-          });
-        } catch (error) {
-          res.status(500).json({ message: 'Error', error });
-        }
-      } else {
-        res.status(404).json({ message: 'User not exists' });
-      }
-    } catch (error) {
-      res.status(500).json({ message: 'Error', error });
+    const userExisted = await getUserService(userId);
+    if (!userExisted) {
+      res.status(400).json({ message: 'User does not exist' });
     }
-  } catch (err) {
-    res
-      .status(400)
-      .json({ message: 'Form validation fail', errorDetails: err.details });
+
+    const user = await updateUserService(userId, req.body);
+
+    res.status(200).json({
+      message: 'Update user successfully',
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const userExisted = await getUserService(userId);
+    if (!userExisted) {
+      res.status(404).json({ message: 'User does not exist' });
+    }
+
+    await deleteUserService(userId);
+
+    res.status(200).json({ message: 'Delete user successfully' });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 };
 
 const resetPassword = async (req, res) => {
   const userId = req.params.id;
-  const randomPassword = generator.generate({
-    length: 6,
-    numbers: true,
-  });
-  const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(randomPassword, salt);
-  const changePass = {
-    password: hashPassword,
-    verified_date: null,
-  };
 
   try {
-    const user = await updateUser(userId, changePass);
+    const userExisted = await getUserService(userId);
+    if (!userExisted) {
+      res.status(404).json({ message: 'User does not exist' });
+    }
 
-    const subjectMail = 'Password reset confirmation email';
-    const htmlMail = 'Your password is :';
-    //send mail
-    await sendGmail(randomPassword, user.email, subjectMail, htmlMail);
+    const user = await resetPasswordService(userId);
 
     res.status(200).json({
       message: 'Reset password successfully!',
+      user,
     });
   } catch (error) {
-    res.status(404).json({
-      error: 'Email does not exist!!!',
-    });
-  }
-};
-
-const deleteUsers = async (req, res) => {
-  const userId = req.params.id;
-  const userExisted = await checkExistingUser(userId);
-
-  if (userExisted == false) {
-    return res
-      .status(404)
-      .json({ message: 'User does not exist or has been deleted' });
-  }
-
-  try {
-    await deleteUser(userId);
-    res.status(200).json({ message: 'Delete User Successfully' });
-  } catch (err) {
-    res.status(404).json({ message: 'Page Not Found' });
+    res.status(404).json({ message: error.message });
   }
 };
 
 module.exports = {
   getUsers,
-  postUser,
-  detailUser,
-  putUser,
+  createUser,
+  getUser,
+  updateUser,
   resetPassword,
-  deleteUsers,
+  deleteUser,
 };

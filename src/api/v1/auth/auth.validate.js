@@ -1,5 +1,20 @@
 const Joi = require('joi');
+
 const { PASSWORD_VALIDATE_REGEX } = require('../../../constants/Auth');
+
+const loginValidate = Joi.object({
+  email: Joi.string().email().required().messages({
+    'any.required': 'Please enter your email address',
+    'string.empty': 'Please enter your email address',
+    'string.email': 'Email address is wrong format',
+  }),
+  password: Joi.string().min(8).max(30).required().messages({
+    'any.required': 'Please enter your password',
+    'string.empty': 'Please enter your password',
+    'string.min': 'Password must be at least 8 characters',
+    'string.max': 'Password must be less than 30 characters',
+  }),
+});
 
 const mailValidate = Joi.object({
   email: Joi.string()
@@ -26,7 +41,7 @@ const changePassValidate = Joi.object({
       'string.empty': `Need to enter enough information`,
       'string.pattern.base': `Password contains at least one number and one special character`,
     }),
-    
+
   confirmedPassword: Joi.string()
     .required()
     .valid(Joi.ref('password'))
@@ -37,6 +52,7 @@ const changePassValidate = Joi.object({
 });
 
 module.exports = {
+  loginValidate,
   mailValidate,
   changePassValidate,
 };

@@ -9,15 +9,25 @@ const {
   changePassFirstLogin,
 } = require('./auth.service');
 
-const { checkExistingUser } = require('../user/user.service');
-const { mailValidate, changePassValidate } = require('./auth.validate');
+const {
+  loginValidate,
+  mailValidate,
+  changePassValidate,
+} = require('./auth.validate');
 const { secretKey, frontendUrl } = require('../../../configs/index');
+const { checkExistingUser } = require('../user/user.service');
 
 const login = async (req, res) => {
+  const { error } = loginValidate.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: error.message });
+  }
+
   try {
     const { email, password } = req.body;
 
-    const user = await findUser(email)
+    const user = await findUser(email);
     if (!user)
       return res.status(400).json({ message: 'This email does not exits!!' });
 
@@ -28,12 +38,11 @@ const login = async (req, res) => {
     const access_token = createAccessToken({ id: user._id });
     const refresh_token = createRefreshToken({ id: user._id });
 
-    res.cookie("refreshtoken", refresh_token, {
+    res.cookie('refreshtoken', refresh_token, {
       httpOnly: true,
-      path: "/api/refresh_token",
+      path: '/api/refresh_token',
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
-
 
     res.json({
       message: 'Login successfully!',
@@ -144,8 +153,7 @@ const putPassFirstLogin = async (req, res) => {
     });
 
     try {
-      if ((await checkExistingUser(userId))) {
-
+      if (await checkExistingUser(userId)) {
         //hash password
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -153,19 +161,24 @@ const putPassFirstLogin = async (req, res) => {
         userBody = {
           password: hashPassword,
           verified_date: Date.now(),
-        }
+        };
 
         const userUpdated = await changePassFirstLogin(userId, userBody);
 
-        res.status(200).json({'message': 'Change password successfully', 'verifiedDate': userUpdated.verified_date });
+        res.status(200).json({
+          message: 'Change password successfully',
+          verifiedDate: userUpdated.verified_date,
+        });
       } else {
-        res.status(404).json({ 'message': 'User not exists' });
+        res.status(404).json({ message: 'User not exists' });
       }
     } catch (error) {
-      res.status(500).json({ 'message': 'Error', error });
+      res.status(500).json({ message: 'Error', error });
     }
   } catch (err) {
-    res.status(400).json({ 'message': 'Form validation fail', 'errorDetails': err.details });
+    res
+      .status(400)
+      .json({ message: 'Form validation fail', errorDetails: err.details });
   }
 };
 
@@ -174,5 +187,5 @@ module.exports = {
   checkLink,
   resetPassword,
   putPassFirstLogin,
-  login
+  login,
 };

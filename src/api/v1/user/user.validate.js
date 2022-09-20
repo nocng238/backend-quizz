@@ -1,66 +1,45 @@
 const Joi = require('joi');
 
-const {
-  STATUS_OPTIONS,
-  NAME_VALIDATE_REGEX,
-  PHONE_VALIDATE_REGEX,
-} = require('../../../constants/User');
-
-const createValidate = Joi.object({
-  name: Joi.string().empty('').min(3).max(30).required().messages({
-    'string.base': `Invalid name`,
-    'any.required': `Need to enter name information`,
+const createUserValidate = Joi.object({
+  name: Joi.string().min(3).max(30).required().messages({
+    'any.required': 'Name is required',
+    'string.empty': 'Name is required',
+    'string.min': 'Name must be at least 3 characters',
+    'string.max': 'Name must be less than 30 characters',
   }),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'vn'] } })
-    .required()
-    .messages({
-      'string.base': `Invalid email`,
-      'any.required': `Need to enter email information`,
-      'string.email': `Invalid email`,
-    }),
-  phone: Joi.number()
+  email: Joi.string().email().required().messages({
+    'any.required': 'Email is required',
+    'string.empty': 'Email is required',
+    'string.email': 'Email address is wrong format',
+  }),
+  phone: Joi.string()
+    .pattern(/^[0-9]+$/, { name: 'phone' })
+    .empty('')
     .min(10)
-    .integer()
-    .messages({ 'string.base': `phone must be number` }),
+    .messages({
+      'string.min': 'Phone must be at least 10 characters',
+      'string.pattern.name': 'Phone is wrong format',
+    }),
 });
 
-const updateValidate = Joi.object({
-  name: Joi.string()
-    .min(3)
-    .max(30)
-    .regex(NAME_VALIDATE_REGEX)
-    .required()
-    .messages({
-      'string.base': `Invalid name`,
-      'string.min': `"name" length must be at least 3 characters long`,
-      'string.max': `"name" length must be at less than 30 characters long`,
-      'object.regex': `"name" fails to match the required pattern: /^[ A-Za-z0-9]+$/`,
-      'any.required': `"name" is not allowed to be empty`,
-    }),
-
+const updateUserValidate = Joi.object({
+  name: Joi.string().min(3).max(30).required().messages({
+    'any.required': 'Name is required',
+    'string.empty': 'Name is required',
+    'string.min': 'Name must be at least 3 characters',
+    'string.max': 'Name must be less than 30 characters',
+  }),
   phone: Joi.string()
-    .length(10)
-    .pattern(PHONE_VALIDATE_REGEX)
-    .required()
+    .pattern(/^[0-9]+$/, { name: 'phone' })
+    .empty('')
+    .min(10)
     .messages({
-      'string.base': `Invalid phone`,
-      'string.length': `"phone" length must be 10 characters long`,
-      'object.regex': `"name" fails to match the required pattern: /^[0-9]+$/`,
-      'any.required': `"phone" is not allowed to be empty`,
-    }),
-
-  status: Joi.string()
-    .valid(...STATUS_OPTIONS)
-    .required()
-    .messages({
-      'string.base': `Invalid status`,
-      'object.valid': `"status" must be one of [active, inactive]`,
-      'any.required': `"status" is not allowed to be empty`,
+      'string.min': 'Phone must be at least 10 characters',
+      'string.pattern.name': 'Phone is wrong format',
     }),
 });
 
 module.exports = {
-  createValidate,
-  updateValidate,
+  createUserValidate,
+  updateUserValidate,
 };
