@@ -1,11 +1,4 @@
 const request = require('../../../request');
-const Cv = require('../../../../src/api/v1/cv/cv.model');
-const helper = require('../../../test_helper');
-
-// beforeEach(async () => {
-//   await Cv.deleteMany({});
-//   await Cv.insertMany(helper.initialCvs);
-// });
 
 describe('Check POST offer', () => {
   test('Create new offer when enter correct field', async () => {
