@@ -33,21 +33,24 @@ const createOffer = async (req, res) => {
 };
 
 const sendMailOffer = async (req, res) => {
-  try {
-    const offer = await findOfferService(req.body)
-    if (!offer) {
-      return res.status(404).json({ message: "Offer is not exists" })
+  const request = req.body
+  for (item of request) {
+    try {
+      const offer = await findOfferService(item)
+      if (!offer) {
+        return res.status(404).json({ message: "Offer is not exists" })
+      }
+
+      const link = `${frontendUrl}/offers/accepted/${offer._id}`;
+
+      sendMailOfferService(offer, link);
+
+      return res.status(200).json({
+        message: 'Send email successfully',
+      });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
     }
-
-    const link = `${frontendUrl}/offers/accepted/${offer._id}`;
-
-    sendMailOfferService(offer, link);
-
-    return res.status(200).json({
-      message: 'Send email successfully',
-    });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
   }
 };
 
