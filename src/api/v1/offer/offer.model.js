@@ -41,5 +41,4 @@ offerSchema.plugin(mongoosePaginate);
 offerSchema.plugin(mongooseDelete);
 
 const offer = mongoose.model('Offer', offerSchema);
-
 module.exports = offer;

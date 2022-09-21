@@ -35,6 +35,17 @@ const mailTemplates = {
     We wish you good luck with your search and future endeavors. </p>
     `,
   },
+  offerConfirm: {
+    subject: '[DEVPLUS] INTERNSHIP OFFER LETTER',
+    content: `
+      <p><b>Hi \${this.name}</b>,</p>
+      <p>Đã Trúng tuyển váo công ty chúng tôi.......</p>
+      <p>\${this.content}</p>
+      <p>Please click this to confirm:</p>
+      <a style='font-family:"Proxima Nova","proxima-nova",Helvetica,Arial sans-serif;color:rgb(0,105,255);text-align:center;display:inline-block;width:150px;padding:10px 0;margin:20px 5px 0 5px;color:#fff;font-size:14px;text-decoration:none;border-width:1px;border-style:solid;border-color:#0069ff;background-color:#0069ff' href='\${this.link}}'>Accept</a>
+      <a style='font-family:"Proxima Nova","proxima-nova",Helvetica,Arial sans-serif;color:rgb(0,105,255);text-align:center;display:inline-block;width:150px;padding:10px 0;margin:20px 5px 0 5px;color:#fff;font-size:14px;text-decoration:none;border-width:1px;border-style:solid;border-color:#0069ff;background-color:#0069ff' href='\${this.link}'>Reject</a>
+    `,
+  },
 };
 
 module.exports = {

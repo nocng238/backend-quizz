@@ -4,6 +4,9 @@ const {
 } = require('./offer.service');
 const { createOffersValidate } = require('./offer.validate');
 
+const { sendMailOfferService, findOfferService, changeOfferStatusService } = require('./offer.service');
+const { secretKey, frontendUrl } = require('../../../configs/index');
+
 const createOffer = async (req, res) => {
   try {
     var { cvs, content, startDate } = req.body;
@@ -29,6 +32,46 @@ const createOffer = async (req, res) => {
   }
 };
 
+const sendMailOffer = async (req, res) => {
+  const request = req.body
+  for (item of request) {
+    try {
+      const offer = await findOfferService(item)
+      if (!offer) {
+        return res.status(404).json({ message: "Offer is not exists" })
+      }
+
+      const link = `${frontendUrl}/offers/accepted/${offer._id}`;
+
+      sendMailOfferService(offer, link);
+
+      return res.status(200).json({
+        message: 'Send email successfully',
+      });
+    } catch (error) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+};
+
+const changeOfferStatus = async (req, res) => {
+  try {
+
+    const offer = await findOfferService(req.body)
+    if (!offer) {
+      return res.status(404).json({ message: "This offer is not exists" })
+    }
+
+    changeOfferStatusService({ id: offer._id, status: offer.status })
+
+    return res.status(200).json({
+      message: 'Change offer status successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 const sendMailRejectOffer = async (req, res) => {
   try {
     sendMailRejectOfferService(req.body);
@@ -41,4 +84,6 @@ const sendMailRejectOffer = async (req, res) => {
   }
 };
 
-module.exports = { createOffer, sendMailRejectOffer };
+module.exports = {
+  sendMailOffer, changeOfferStatus, createOffer, sendMailRejectOffer
+};
