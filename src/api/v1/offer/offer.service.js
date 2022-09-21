@@ -3,6 +3,11 @@ const { mailTemplates } = require('../../../configs/mailer');
 const { replaceContent } = require('../helpers');
 
 const Offer = require('./offer.model');
+const { sendMail } = require('../services/mailer');
+const { mailTemplates } = require('../../../configs/mailer');
+const { replaceContent } = require('../helpers');
+
+const { offerConfirm } = mailTemplates;
 
 const { rejectOffer } = mailTemplates;
 
@@ -36,7 +41,43 @@ const sendMailRejectOfferService = (emails) => {
   }
 };
 
+const sendMailOfferService = async (offer, link) => {
+
+  const mailParams = {
+    mailTo: offer.email,
+    subject: offerConfirm.subject,
+    content: replaceContent(offerConfirm.content, {
+      name: offer.name,
+      link: link,
+      content: offer.content
+    }),
+  };
+  sendMail(mailParams);
+
+}
+
+const findOfferService = async (data) => {
+  return await Offer.findOne({ email: data.email })
+}
+
+const changeOfferStatusService = async (id, status) => {
+  const changeStatus = await User.updateOne(
+    {
+      _id: id,
+    },
+    {
+      $set: {
+        status: status,
+      },
+    }
+  );
+  return changeStatus;
+}
+
 module.exports = {
-  sendMailRejectOfferService,
+  sendMailOfferService,
+  findOfferService,
+  changeOfferStatusService,
   createOffersService,
+  sendMailRejectOfferService,
 };
