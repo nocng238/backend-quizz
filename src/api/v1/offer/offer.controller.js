@@ -1,4 +1,7 @@
-const { createOffersService } = require('./offer.service');
+const {
+  createOffersService,
+  sendMailRejectOfferService,
+} = require('./offer.service');
 const { createOffersValidate } = require('./offer.validate');
 
 const createOffer = async (req, res) => {
@@ -26,4 +29,16 @@ const createOffer = async (req, res) => {
   }
 };
 
-module.exports = { createOffer };
+const sendMailRejectOffer = async (req, res) => {
+  try {
+    sendMailRejectOfferService(req.body);
+
+    return res.status(200).json({
+      message: 'Send email successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createOffer, sendMailRejectOffer };
