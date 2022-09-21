@@ -1,19 +1,11 @@
 const { sendMail } = require('../services/mailer');
 const { mailTemplates } = require('../../../configs/mailer');
 const { replaceContent } = require('../helpers');
-
 const Offer = require('./offer.model');
-const { sendMail } = require('../services/mailer');
-const { mailTemplates } = require('../../../configs/mailer');
-const { replaceContent } = require('../helpers');
-
-const { offerConfirm } = mailTemplates;
-
-const { rejectOffer } = mailTemplates;
+const { rejectOffer, offerConfirm } = mailTemplates;
 
 const createOffersService = async (cvs, detail) => {
   const { content, startDate } = detail;
-
   const cvsDetail = cvs.map((cv) => {
     return {
       cv: cv.cvId,
