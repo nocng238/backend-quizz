@@ -3,7 +3,7 @@ const { createOffersValidate } = require('./offer.validate');
 
 const createOffer = async (req, res) => {
   try {
-    const { cvs, content, startDate } = req.body;
+    var { cvs, content, startDate } = req.body;
 
     const { error } = createOffersValidate.validate(req.body);
 
@@ -12,12 +12,11 @@ const createOffer = async (req, res) => {
     }
 
     const today = new Date();
-    if (Date.parse(startDate) > today.setHours(0, 0, 0, 0)) {
+    if (Date.parse(startDate) < today.setHours(0, 0, 0, 0)) {
       return res
         .status(400)
         .json({ message: 'This date is not lower than the current date' });
     }
-
     const detailOffer = { content, startDate };
     const savedOffer = await createOffersService(cvs, detailOffer);
 

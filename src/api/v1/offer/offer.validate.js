@@ -7,8 +7,8 @@ const createOffersValidate = Joi.object({
     'any.required': 'Need to enter an array of CV ids',
   }),
   content: Joi.string().empty('').required().messages({
-    'string.base': 'Invalid interviewer',
-    'any.required': 'Need to enter interviewer',
+    'string.base': 'Invalid offer',
+    'any.required': 'Need to enter offer',
   }),
   startDate: Joi.date().empty('').required().messages({
     'date.base': 'Invalid date time',

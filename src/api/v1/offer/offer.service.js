@@ -1,4 +1,4 @@
-const Appointment = require('./appointment.model');
+const Offer = require('./offer.model');
 
 const createOffersService = async (cvs, detail) => {
   const { content, startDate } = detail;
@@ -8,19 +8,13 @@ const createOffersService = async (cvs, detail) => {
       cv: cv.cvId,
       name: cv.name,
       email: cv.email,
-      phone: cv.phone,
-      link: cv.link,
       content,
       startDate,
     };
   });
 
-  for (const cv of cvsDetail) {
-    sendMailService(cv.email, cv.name, detail);
-  }
-
-  const newAppointments = Appointment.insertMany(cvsDetail);
-  return newAppointments;
+  const newOffers = Offer.insertMany(cvsDetail);
+  return newOffers;
 };
 
 module.exports = {
