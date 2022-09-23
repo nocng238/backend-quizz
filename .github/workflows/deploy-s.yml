@@ -1,0 +1,69 @@
+name: Deploy flow
+
+on:
+  workflow_call:
+    inputs:
+      env_tag:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      deploy_dir:
+        required: true
+        type: string
+      AWS_ECR_REPOSITORY:
+        required: true
+        type: string
+
+    secrets:
+      AWS_EC2_HOST_NAME:
+        required: true
+      AWS_EC2_USERNAME:
+        required: true
+      AWS_EC2_ACCESS_KEY:
+        required: true
+      AWS_REGION:
+        required: true
+
+jobs:
+  deploy-ec2:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Pre install SSH key
+        run: sudo apt update && sudo apt install openssh-client bash
+
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.AWS_EC2_ACCESS_KEY }}
+          name: id_rsa
+          known_hosts: 'known_hosts'
+
+      - name: Add known host
+        run: |
+          ssh-keyscan -H $SSH_SERVER_IP >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.AWS_EC2_ACCESS_KEY}}
+          SSH_SERVER_IP: ${{ secrets.AWS_EC2_HOST_NAME }}
+          SSH_USER: ${{secrets.AWS_EC2_USERNAME}}
+
+      - name: Connect to server & deploy
+        env:
+          SSH_USER: ${{secrets.AWS_EC2_USERNAME}}
+          SSH_SERVER_IP: ${{secrets.AWS_EC2_HOST_NAME}}
+          IMAGE_TAG: ${{ steps.get_tag.outputs.tag }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: |
+          ssh $SSH_USER@$SSH_SERVER_IP IMAGE_TAG=$IMAGE_TAG "cd ${{ inputs.deploy_dir }} \
+            && echo $IMAGE_TAG \
+            && bash aws-login \
+            && cd ${{ inputs.deploy_dir }} && docker-compose --env-file ./.env pull backend \
+            && cd ${{ inputs.deploy_dir }} && docker-compose up -d
+        shell: bash
