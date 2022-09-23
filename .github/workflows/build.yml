@@ -51,5 +51,4 @@ jobs:
             -f Dockerfile \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:latest \
             .
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest

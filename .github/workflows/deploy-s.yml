@@ -9,9 +9,6 @@ on:
       environment:
         required: true
         type: string
-      deploy_dir:
-        required: true
-        type: string
       AWS_ECR_REPOSITORY:
         required: true
         type: string
@@ -61,9 +58,9 @@ jobs:
           IMAGE_TAG: ${{ steps.get_tag.outputs.tag }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          ssh $SSH_USER@$SSH_SERVER_IP IMAGE_TAG=$IMAGE_TAG "cd ${{ inputs.deploy_dir }} \
-            && echo $IMAGE_TAG \
-            && bash aws-login \
-            && cd ${{ inputs.deploy_dir }} && docker-compose --env-file ./.env pull backend \
-            && cd ${{ inputs.deploy_dir }} && docker-compose up -d
+          ssh $SSH_USER@$SSH_SERVER_IP IMAGE_TAG=$IMAGE_TAG "
+            bash aws-login \
+            && docker-compose --env-file ./.env pull ${{ inputs.env_tag }}-backend \
+            && docker-compose up -d ${{ inputs.env_tag }}-backend
+          "
         shell: bash

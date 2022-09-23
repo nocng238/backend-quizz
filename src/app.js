@@ -19,7 +19,7 @@ db.once('open', function () {
 // domain.com
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: 'Welcome to Dev Plus',
+    message: 'Welcome to Dev Plus 1',
   });
 });
 
