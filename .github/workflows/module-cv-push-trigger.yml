@@ -20,7 +20,7 @@ jobs:
       AWS_REGION: ap-southeast-1
 
   deploy:
-    uses: ./.github/workflows/deploy.yml
+    uses: ./.github/workflows/deploy-s.yml
     needs: [build]
     with:
       env_tag: dev
