@@ -29,6 +29,8 @@ const updateUserValidate = Joi.object({
     'string.min': 'Name must be at least 3 characters',
     'string.max': 'Name must be less than 30 characters',
   }),
+  email: Joi.string(),
+  status: Joi.string(),
   phone: Joi.string()
     .pattern(/^[0-9]+$/, { name: 'phone' })
     .empty('')
