@@ -22,11 +22,7 @@ const getUsers = async (req, res) => {
       limit: parseInt(req.query.limit) || 10,
     };
 
-    const sortKey = req.query.sort_key || 'createdAt';
-    const sortValue = req.query.sort_value || 'DESC';
-    const sort = {
-      [sortKey]: sortValue,
-    };
+    const sort = req.query.sort || 'createdAt';
 
     const users = await getUsersService(search, sort, filters, options);
 
