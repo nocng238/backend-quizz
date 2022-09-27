@@ -10,10 +10,10 @@ const { createUser, resetPassword } = mailTemplates;
 const User = require('./user.model');
 const { replaceContent } = require('../helpers');
 
-const selectFiels = ['_id', 'name', 'email', 'phone', 'status', 'avatar'];
+const selectFields = ['_id', 'name', 'email', 'phone', 'status', 'avatar'];
 
 const getUsersService = async (search, sort, { status }, { limit, page }) => {
-  status = status === 'all' ? [...STATUS_OPTIONS] : status.split(',');
+  status = status === 'all' ? [...STATUS_OPTIONS] : status;
 
   const offset = page * limit;
 
@@ -31,7 +31,7 @@ const getUsersService = async (search, sort, { status }, { limit, page }) => {
     offset,
     limit,
     sort,
-    select: selectFiels,
+    select: selectFields,
   });
 
   const usersPaginate = {
@@ -72,7 +72,7 @@ const createUserService = async (params) => {
 
 const getUserService = async (userId) => {
   return await User.findOne({ _id: userId, deleted: false }).select(
-    selectFiels
+    selectFields
   );
 };
 
@@ -83,7 +83,7 @@ const updateUserService = async (userId, body) => {
       $set: body,
     },
     { new: true }
-  ).select(selectFiels);
+  ).select(selectFields);
 };
 
 const deleteUserService = async (userId) => {
@@ -107,7 +107,7 @@ const resetPasswordService = async (userId) => {
       },
     },
     { new: true }
-  ).select(selectFiels);
+  ).select(selectFields);
 
   const mailParams = {
     mailTo: user.email,
