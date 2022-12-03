@@ -2,12 +2,12 @@ const generator = require('generate-password');
 const bcrypt = require('bcrypt');
 
 const { STATUS_OPTIONS } = require('../../../constants/User');
-const { sendMail } = require('../services/mailer');
+const { sendMail } = require('./mailer');
 const { mailTemplates } = require('../../../configs/mailer');
 
 const { createUser, resetPassword } = mailTemplates;
 
-const User = require('./user.model');
+const User = require('../user/user.model');
 const { replaceContent } = require('../helpers');
 
 const selectFields = ['_id', 'name', 'email', 'phone', 'status', 'avatar'];
