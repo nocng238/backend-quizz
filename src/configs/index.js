@@ -1,4 +1,4 @@
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8000;
 const secretKey = process.env.SECRET_KEY || 'secretKey';
 const baseUrl = process.env.BASE_URL;
 const frontendUrl = process.env.FRONTEND_URL;

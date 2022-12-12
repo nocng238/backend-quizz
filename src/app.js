@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const mongoose = require('./database');
 
@@ -8,6 +9,7 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(cors());
 
 const db = mongoose.connection;
@@ -19,10 +21,9 @@ db.once('open', function () {
 // domain.com
 app.get('/', (req, res) => {
   res.status(200).json({
-    message: 'Welcome to Dev Plus 1',
+    message: 'Welcome to my Online quizz app',
   });
 });
-
 app.use('/', require('./routes'));
-
+app.use('/src/api/v1/doc', express.static('doc'));
 module.exports = app;
