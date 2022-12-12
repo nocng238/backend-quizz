@@ -1,2 +1,2 @@
-# devplus-be
-Dev Plus Project
+# online-quizz backend
+Online quizz Project
