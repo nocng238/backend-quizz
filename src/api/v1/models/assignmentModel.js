@@ -27,17 +27,18 @@ const assignmentSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    // timeStart: {
-    //   type: String,
-    // },
-    // timeEnd: {
-    //   type: String,
-    // },
+    timeStart: {
+      type: String,
+      default: createdAt,
+    },
+    timeEnd: {
+      type: String,
+      default: createdAt,
+    },
     status: {
       type: Boolean,
       default: false,
     },
-
     createdAt: {
       type: String,
       default: createdAt,

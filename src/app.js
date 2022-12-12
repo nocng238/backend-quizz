@@ -25,5 +25,5 @@ app.get('/', (req, res) => {
   });
 });
 app.use('/', require('./routes'));
-
+app.use('/src/api/v1/doc', express.static('doc'));
 module.exports = app;

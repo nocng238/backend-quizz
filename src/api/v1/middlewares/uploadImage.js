@@ -4,11 +4,12 @@ const multer = require('multer');
 const storage = multer.diskStorage({
   // desitnation
   destination: function (req, res, cb) {
-    cb(null, './uploads/');
+    cb(null, './src/api/v1/doc');
   },
   // filename
   filename: function (req, file, cb) {
     cb(null, file.fieldname + '-' + Date.now() + file.originalname);
+    // cb(null, file.originalname);
   },
 });
 
@@ -21,4 +22,4 @@ let upload = multer({
   fileFilter: filerFilter,
 });
 
-module.exports = upload.single('avatar');
+module.exports = upload.single('question');

@@ -11,4 +11,7 @@ router.use('/user', require('./routes/userRoutes'));
 
 router.use('/assignment', require('./routes/assignmentRoutes'));
 
+router.use('/quizz', require('./routes/quizzRoutes'));
+
+router.use('/upload', require('./routes/uploadRoutes'));
 module.exports = router;

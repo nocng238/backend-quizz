@@ -32,37 +32,6 @@ const authController = {
       res.status(500).json({ message: err.message });
     }
   },
-  // signing: async (req, res) => {
-  //   try {
-  //     // get cred
-  //     const { userName, password } = req.body;
-
-  //     // check username
-  //     const user = await User.findOne({ userName });
-  //     if (!user)
-  //       return res
-  //         .status(400)
-  //         .json({ message: 'This user name is not registered in our system.' });
-
-  //     // check password
-  //     const isMatch = await bcrypt.compare(password, user.password);
-  //     if (!isMatch)
-  //       return res.status(400).json({ message: 'This password is incorrect.' });
-
-  //     // refresh token
-  //     const rf_token = createToken.refresh({ id: user._id, role: user.role });
-  //     res.cookie('_apprftoken', rf_token, {
-  //       httpOnly: true,
-  //       path: '/api/v1/auth/access',
-  //       maxAge: 24 * 60 * 60 * 1000, // 24h
-  //     });
-
-  //     // signing success
-  //     res.status(200).json({ message: 'Signing success' });
-  //   } catch (err) {
-  //     res.status(500).json({ message: err.message });
-  //   }
-  // },
   access: async (req, res) => {
     try {
       // rf token
