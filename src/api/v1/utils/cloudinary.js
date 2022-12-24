@@ -1,4 +1,4 @@
-import cloudinary from 'cloudinary';
+const cloudinary = require('cloudinary');
 
 const uploads = (file, folder) => {
   cloudinary.config({
@@ -12,7 +12,8 @@ const uploads = (file, folder) => {
       file,
       {
         resource_type: 'auto',
-        upload_preset: folder, // name folder that configured on cloudinary
+        crop: 'fill',
+        folder: folder, // name folder that configured on cloudinary
       },
       (err, res) => {
         if (err) {
@@ -45,4 +46,4 @@ const removes = (public_id) => {
   });
 };
 
-export { uploads, removes };
+module.exports = { uploads, removes };

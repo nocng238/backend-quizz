@@ -8,15 +8,19 @@ const {
   verifyAdminRole,
   verifyTeacherRole,
 } = require('../middlewares/auth');
-// router.get('/', getUsers);
+router.get('/', auth, verifyAdminRole, userController.getUsers);
 
 router.post('/', auth, verifyAdminRole, userController.createUser);
 
-// router.get('/:id', getUser);
+router.get('/profile', auth, userController.getUser);
 
-// router.put('/:id', updateUser);
+router.patch('/profile', auth, userController.updateUserProfile);
 
-// router.delete('/:id', deleteUser);
+router.patch(
+  '/profile/updatePassword',
+  auth,
+  userController.updateUserPassword
+);
 
 // router.post('/reset-password/:id', resetPassword);
 

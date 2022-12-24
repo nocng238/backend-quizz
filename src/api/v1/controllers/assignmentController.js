@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Assignment = require('../models//assignmentModel');
 const APIFeatures = require('../utils/api_features');
+const Answer = require('../models/answerModel');
 const assignmentController = {
   createAssignment: async (req, res) => {
     try {
@@ -28,13 +29,13 @@ const assignmentController = {
       const features = new APIFeatures(
         Assignment.find(
           { createdBy: userId },
-          'questions title duration timeStart timeEnd'
+          'questions title duration timeStart timeEnd createdAt'
         ),
         query
       )
         .filtering()
-        .paginating()
-        .sorting();
+        .sorting()
+        .paginating();
       const assignments = await features.query;
       const assignmentProcess = assignments.map((assignment) => {
         const { id, title, questions, duration, timeStart, timeEnd } =
@@ -91,7 +92,6 @@ const assignmentController = {
     try {
       const assignmentId = req.params.id;
       await Assignment.updateOne({ _id: assignmentId }, { ...req.body });
-
       res.status(200).json({ message: 'edit success' });
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -101,6 +101,7 @@ const assignmentController = {
     try {
       const assignmentId = req.params.id;
       await Assignment.deleteOne({ _id: assignmentId });
+      await Answer.deleteMany({ assignmentId });
       res.status(200).json({ message: 'Delete success' });
     } catch (error) {
       res.status(500).json({ message: error.message });

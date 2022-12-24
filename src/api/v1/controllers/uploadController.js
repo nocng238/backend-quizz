@@ -1,13 +1,7 @@
-const cloudinary = require('cloudinary');
 const fs = require('fs');
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_SECRET_KEY,
-});
 const htmlparser2 = require('htmlparser2');
 const mammoth = require('mammoth');
-
+const { uploads } = require('../utils/cloudinary');
 const uploadController = {
   uploadDoc: async (req, res, next) => {
     try {
@@ -94,7 +88,20 @@ const uploadController = {
       req.body.questions = assignment.questions;
       next();
     } catch (err) {
-      console.log(err.message);
+      fs.unlinkSync(req.file.path);
+      console.log(err.message, 'upload controller');
+      res.status(500).json({ msg: err.message });
+    }
+  },
+  uploadAvar: async (req, res) => {
+    try {
+      // get file
+      const uploader = async (path, folder) => await uploads(path, folder);
+
+      const file = req.file;
+      const newPath = await uploader(file.path, 'avatar');
+      res.status(200).json(newPath);
+    } catch (err) {
       res.status(500).json({ msg: err.message });
     }
   },

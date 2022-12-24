@@ -23,7 +23,7 @@ router.post(
   auth,
   verifyTeacherRole,
   uploadImage,
-  upload,
+  upload.uploadDoc,
   uploadController.uploadDoc,
   assignmentController.createAssignment
 );
