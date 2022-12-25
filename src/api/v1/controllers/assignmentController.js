@@ -28,8 +28,8 @@ const assignmentController = {
       };
       const features = new APIFeatures(
         Assignment.find(
-          { createdBy: userId },
-          'questions title duration timeStart timeEnd createdAt'
+          { createdBy: userId, disable: false },
+          'questions title duration timeStart timeEnd status createdAt'
         ),
         query
       )
@@ -38,7 +38,7 @@ const assignmentController = {
         .paginating();
       const assignments = await features.query;
       const assignmentProcess = assignments.map((assignment) => {
-        const { id, title, questions, duration, timeStart, timeEnd } =
+        const { id, title, questions, duration, timeStart, timeEnd, status } =
           assignment;
         return {
           id,
@@ -47,6 +47,7 @@ const assignmentController = {
           duration,
           timeStart,
           timeEnd,
+          status,
         };
       });
       return res.status(200).json(assignmentProcess);
@@ -59,7 +60,8 @@ const assignmentController = {
       const userRole = req.user.role;
       const assignmentId = req.params.id;
       const assignment = await Assignment.findById({ _id: assignmentId });
-      const { _id, title, duration, questions } = assignment;
+      const { _id, title, duration, questions, shuffleQuestion } = assignment;
+      //
       if (userRole == 2) {
         const questionsEdit = questions.map((question, index) => {
           let countRightAnswers = 0;
@@ -79,6 +81,10 @@ const assignmentController = {
           } else type = 'singleAnswer';
           return { title: questionTitle, _id, answers, type };
         });
+        //shuffle array
+        if (shuffleQuestion && userRole == 2) {
+          questionsEdit.sort((a, b) => 0.5 - Math.random());
+        }
         res
           .status(200)
           .json({ _id, title, duration, questions: questionsEdit });
@@ -100,8 +106,8 @@ const assignmentController = {
   deleteAssignment: async (req, res) => {
     try {
       const assignmentId = req.params.id;
-      await Assignment.deleteOne({ _id: assignmentId });
-      await Answer.deleteMany({ assignmentId });
+      await Assignment.updateOne({ _id: assignmentId }, { disable: true });
+      await Answer.updateMany({ assignmentId }, { disable: true });
       res.status(200).json({ message: 'Delete success' });
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -110,7 +116,7 @@ const assignmentController = {
   studentGetAssignments: async (req, res) => {
     try {
       const assignments = await Assignment.find(
-        null,
+        { status: true, disable: false },
         'questions title duration timeStart timeEnd'
       );
       const assignmentProcess = assignments.map((assignment) => {

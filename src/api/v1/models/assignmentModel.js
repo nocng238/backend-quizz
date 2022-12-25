@@ -27,6 +27,10 @@ const assignmentSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    shuffleQuestion: {
+      type: Boolean,
+      default: false,
+    },
     timeStart: {
       type: String,
       default: createdAt,
@@ -36,6 +40,10 @@ const assignmentSchema = mongoose.Schema(
       default: createdAt,
     },
     status: {
+      type: Boolean,
+      default: false,
+    },
+    disable: {
       type: Boolean,
       default: false,
     },

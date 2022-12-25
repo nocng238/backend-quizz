@@ -33,8 +33,16 @@ const edit = [
 // if(true){
 //   const {title }
 // }
-const a = ['a', 'bas', 'cs'];
-for (const prop in a) {
-  console.log(prop, 'and value is : ', a[prop]);
-}
-console.log(typeof a);
+const array = [
+  { _id: '63878dc62f7c8bd41dd8243a', title: 'ANSWER 1' },
+  { _id: '63878dc62f7c8bd41dd8243b', title: 'ANSWER1' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe2' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe3' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe4' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe5' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe6' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe7' },
+  { _id: '638b83a98827409c275087d2', title: 'hehe8' },
+];
+array.sort((a, b) => 0.5 - Math.random());
+console.log(array);

@@ -100,8 +100,10 @@ const uploadController = {
 
       const file = req.file;
       const newPath = await uploader(file.path, 'avatar');
+      fs.unlinkSync(file.path);
       res.status(200).json(newPath);
     } catch (err) {
+      fs.unlinkSync(file.path);
       res.status(500).json({ msg: err.message });
     }
   },

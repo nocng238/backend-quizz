@@ -16,6 +16,10 @@ const answerSchema = mongoose.Schema(
       type: Object,
       default: {},
     },
+    disable: {
+      type: Boolean,
+      default: false,
+    },
     timeStart: String,
     timeEnd: String,
     score: Number,
