@@ -2,7 +2,6 @@ const User = require('../models/userModel');
 const validateEmail = require('../helpers/validateEmail');
 const bcrypt = require('bcryptjs');
 const APIFeatures = require('../utils/api_features');
-const { query } = require('express');
 const userController = {
   createUser: async (req, res) => {
     try {
@@ -78,6 +77,22 @@ const userController = {
         '-password -createdAt -updatedAt'
       );
       res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  getStudents: async (req, res) => {
+    try {
+      const students = await User.find({ role: 2 }, 'name');
+      res.status(200).json(students);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  },
+  getTeachers: async (req, res) => {
+    try {
+      const teachers = await User.find({ role: 1 }, 'name');
+      res.status(200).json(teachers);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

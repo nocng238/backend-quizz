@@ -27,7 +27,14 @@ const authController = {
       // refresh token
       const ac_token = createToken.access({ id: user._id, role: user.role });
       // signing success
-      res.status(200).json({ message: 'Signing success', ac_token, user });
+      const { avatar, name, role } = user;
+      res
+        .status(200)
+        .json({
+          message: 'Signing success',
+          ac_token,
+          user: { avatar, name, role },
+        });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }

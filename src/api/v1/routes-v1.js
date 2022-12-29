@@ -9,6 +9,8 @@ router.use('/auth', require('./routes/authRoutes'));
 
 router.use('/user', require('./routes/userRoutes'));
 
+router.use('/class', require('./routes/classRoutes'));
+
 router.use('/assignment', require('./routes/assignmentRoutes'));
 
 router.use('/quizz', require('./routes/quizzRoutes'));

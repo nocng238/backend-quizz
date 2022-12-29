@@ -14,6 +14,10 @@ router.post('/', auth, verifyAdminRole, userController.createUser);
 
 router.get('/profile', auth, userController.getUser);
 
+router.get('/student', auth, verifyAdminRole, userController.getStudents);
+
+router.get('/teacher', auth, verifyAdminRole, userController.getTeachers);
+
 router.patch('/profile', auth, userController.updateUserProfile);
 
 router.patch(

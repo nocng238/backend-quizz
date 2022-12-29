@@ -1,10 +1,9 @@
-import moment from 'moment';
-import mongoose from 'mongoose';
-const User = require('./userModel');
+const moment = require('moment');
+const mongoose = require('mongoose');
 const createdAt = moment().format();
 
 const classSchema = new mongoose.Schema({
-  name: {
+  className: {
     type: String,
     required: true,
   },
@@ -12,9 +11,18 @@ const classSchema = new mongoose.Schema({
   teacher: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
+    require: true,
+  },
+  createdAt: {
+    type: String,
+    default: createdAt,
+  },
+  disable: {
+    type: Boolean,
+    default: false,
   },
 });
 
 const Class = mongoose.model('Class', classSchema);
 
-export default Class;
+module.exports = Class;
